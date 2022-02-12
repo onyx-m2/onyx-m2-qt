@@ -1,0 +1,1 @@
+New linear style half-height UI. It features mostly straight horizontal line gauges along with text gauges. Yes, it's text heavy, but I like the density.

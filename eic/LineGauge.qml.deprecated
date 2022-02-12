@@ -1,0 +1,125 @@
+import QtQuick 2.0
+import QtQuick.Layouts 1.15
+import Theme 1.0
+
+Item {
+    //border.color: 'red'
+    id: indicator
+    property real value
+    property real maxValue
+    property string caption
+    property string units
+    property color color: Colors.white
+    property string maxValueDisplay: maxValue
+
+    property int unitsFontSize: height * 0.3
+    property int captionFontSize: height * 0.4
+
+    states: State {
+        name: 'reverse'
+        AnchorChanges {
+            target: valueText
+            anchors.left: undefined
+            anchors.right: parent.right
+        }
+        AnchorChanges {
+            target: valueBar
+            anchors.left: undefined
+            anchors.right: parent.right
+        }
+        AnchorChanges {
+            target: captionText
+            anchors.left: parent.left
+            anchors.right: undefined
+        }
+        AnchorChanges {
+            target: maxValueText
+            anchors.left: parent.left
+            anchors.right: undefined
+        }
+        AnchorChanges {
+            target: unitsText
+            anchors.left: undefined
+            anchors.right: valueText.left
+        }
+    }
+
+    Text {
+        id: captionText
+        anchors {
+            right: parent.right
+            bottom: maxValueText.top
+            bottomMargin: parent.height * 0.1
+        }
+        color: Colors.grey
+        font.pixelSize: captionFontSize
+        text: caption
+    }
+
+    Text {
+        id: maxValueText
+        anchors {
+            right: parent.right
+            bottom: valueText.bottom
+            bottomMargin: parent.height * 0.12
+        }
+        color: Colors.grey
+        font.pixelSize: captionFontSize
+        text: maxValue > 0 ? maxValue : '-'
+    }
+
+    Text {
+        id: valueText
+        anchors {
+            left: parent.left
+            bottom: valueBar.top
+        }
+        color: (value !== 0) ? indicator.color : Colors.grey
+        font.pixelSize: parent.height
+        font.weight: Font.Light
+        text: value
+    }
+
+    Text {
+        id: unitsText
+        anchors {
+            horizontalCenter: valueText.horizontalCenter
+            //left: valueText.right
+            top: valueText.bottom
+            topMargin: -parent.height * 0.12
+        }
+        color: (value !== 0) ? indicator.color : Colors.grey
+        font.pixelSize: unitsFontSize
+        text: units
+    }
+
+    Rectangle {
+        id: bar
+        width: parent.width
+        height: vh(0.6)
+        anchors {
+            left: parent.left
+            bottom: parent.bottom
+
+        }
+        color: Colors.grey
+    }
+
+    Rectangle {
+        id: valueBar
+        width: parent.width * Math.min(value / maxValue, maxValue)
+        height: vh(0.6)
+        anchors {
+            bottom: parent.bottom
+        }
+        color: indicator.color
+        visible: maxValue > 0
+
+        Behavior on width {
+            NumberAnimation  {
+                easing.type: Easing.InOutQuad
+                duration: 300
+            }
+        }
+    }
+}

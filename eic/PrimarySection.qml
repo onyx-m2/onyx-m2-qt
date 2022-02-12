@@ -1,0 +1,119 @@
+import QtQuick 2.0
+import QtQuick.Layouts 1.15
+import Theme 1.0
+
+Item {
+    //color: 'red'
+    property int gear: 7 // SNA
+    property int ebrStatus: 0
+    property int autopilotState: 0
+    property int handsOnState: 0
+    property int speedLimit: 0
+
+    readonly property int indicatorWidth: vw(20)
+    readonly property int smallIndicatorWidth: vw(12)
+
+    CaptionTextGauge {
+        anchors {
+            left: parent.left
+            leftMargin: rowSpacing
+        }
+        width: smallIndicatorWidth
+        height: parent.height
+        caption: "MAX"
+        value: speedLimit
+        units: 'km/h'
+    }
+
+    SpeedIndicator {
+        anchors {
+            right: gearIndicator.left
+        }
+        width: indicatorWidth
+        height: parent.height
+    }
+
+    Item {
+        id: gearIndicator
+        anchors {
+            centerIn: parent
+        }
+        width: indicatorWidth
+        height: parent.height
+        visible: gear !== 0
+        Rectangle {
+            anchors {
+                fill: prnd
+                margins: -8
+            }
+            radius: 4
+            color: {
+                if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
+                    return Colors.red
+                }
+                if (autopilotState === 3 /* ACTIVE_NOMINAL */) {
+                    return Colors.blue
+                }
+                return  Colors.white
+            }
+        }
+        Text {
+            id: prnd
+            anchors {
+                centerIn: parent
+            }
+            text: {
+                const gears = ["OFF", "P", "R", "N", "D", "", "", "OFF"]
+                if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
+                    return "H"
+                }
+                if (autopilotState === 3 /* ACTIVE_NOMINAL */) {
+                    return 'A'
+                }
+                return gears[gear]
+            }
+            font.pixelSize: vh(9)
+            font.weight: Font.Bold
+        }
+    }
+
+    PowerIndicator {
+        id: powerIndicator
+        anchors {
+            left: gearIndicator.right
+        }
+        width: indicatorWidth
+        height: parent.height
+    }
+
+    BatteryIndicator {
+        anchors {
+            right: parent.right
+            rightMargin: rowSpacing
+        }
+        width: smallIndicatorWidth
+        height: parent.height
+    }
+
+    Canbus {
+        onUpdate: {
+            gear = sig('DI_gear')
+
+            // the ebr (emergency brake) status correlates to the car notion of
+            // 'holding' while stopped
+            ebrStatus = sig('ESP_ebrStatus')
+
+            // auto pilot states
+            autopilotState = sig('DAS_autopilotState')
+            handsOnState = sig('DAS_autopilotHandsOnState')
+
+            // speed limits
+            const fusedLimit = sig('DAS_fusedSpeedLimit')
+            if (fusedLimit !== 0 && fusedLimit !== 31 /* NONE */) {
+                speedLimit = fusedLimit
+            } else {
+                speedLimit = 0
+            }
+        }
+    }
+}

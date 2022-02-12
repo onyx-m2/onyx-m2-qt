@@ -1,0 +1,3 @@
+[submodule "dbcppp"]
+	path = dbcppp
+	url = https://github.com/xR3b0rn/dbcppp.git
