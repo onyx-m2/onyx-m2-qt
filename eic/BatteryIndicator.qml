@@ -13,9 +13,7 @@ Item {
         }
         value: soc
         caption: 'BATT'
-        units: '%'
         color: gaugeColor
-        state: 'rightAligned'
     }
 
     Canbus {

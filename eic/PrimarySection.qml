@@ -3,12 +3,12 @@ import QtQuick.Layouts 1.15
 import Theme 1.0
 
 Item {
-    //color: 'red'
     property int gear: 7 // SNA
     property int ebrStatus: 0
     property int autopilotState: 0
     property int handsOnState: 0
-    property int speedLimit: 0
+    property int speedLimit: 30
+    property bool speedLimitKnown: false
 
     readonly property int indicatorWidth: vw(20)
     readonly property int smallIndicatorWidth: vw(12)
@@ -22,7 +22,7 @@ Item {
         height: parent.height
         caption: "MAX"
         value: speedLimit
-        units: 'km/h'
+        color: speedLimitKnown ? Colors.white : Colors.grey
     }
 
     SpeedIndicator {
@@ -44,7 +44,7 @@ Item {
         Rectangle {
             anchors {
                 fill: prnd
-                margins: -8
+                margins: -24
             }
             radius: 4
             color: {
@@ -61,11 +61,12 @@ Item {
             id: prnd
             anchors {
                 centerIn: parent
+                //offsetVertical: 10
             }
             text: {
                 const gears = ["OFF", "P", "R", "N", "D", "", "", "OFF"]
                 if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
-                    return "H"
+                    return "HOLD"
                 }
                 if (autopilotState === 3 /* ACTIVE_NOMINAL */) {
                     return 'A'
@@ -111,8 +112,9 @@ Item {
             const fusedLimit = sig('DAS_fusedSpeedLimit')
             if (fusedLimit !== 0 && fusedLimit !== 31 /* NONE */) {
                 speedLimit = fusedLimit
+                speedLimitKnown = true
             } else {
-                speedLimit = 0
+                speedLimitKnown = false
             }
         }
     }

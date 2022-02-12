@@ -64,7 +64,7 @@ Item {
         anchors {
             horizontalCenter: valueText.horizontalCenter
             top: valueText.bottom
-            topMargin: -parent.height * 0.12
+            topMargin: -parent.height * 0.1
             //left: parent.left
         }
         color: (value !== 0) ? indicator.color : Colors.grey

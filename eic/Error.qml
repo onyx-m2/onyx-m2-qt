@@ -4,18 +4,14 @@ import QtQuick.Window 2.3
 Item {
     id: app
     property var errors: ['No errors detected!']
-    readonly property int titlefontSize: 0.06 * (height || Screen.height)
-    readonly property int bodyfontSize: 0.04 * (height || Screen.height)
     ColumnLayout {
         Text {
              color: 'white'
-             font.pointSize: titlefontSize
-             text: "[Onyx Pi] Error"
+             text: "[Onyx M2 Qt Error]"
          }
          Text {
              Layout.maximumWidth: app.width || Screen.width
              color: 'white'
-             font.pointSize: bodyfontSize
              wrapMode: Text.WordWrap
              text: errors.join('\n')
          }

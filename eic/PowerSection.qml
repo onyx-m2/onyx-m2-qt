@@ -11,7 +11,7 @@ Item {
     property int regenPowerLimit: 0
 
     readonly property int gaugeHeight: rowSpacing / 2
-    readonly property int gagueOffset: rowSpacing / 2
+    readonly property int gagueOffset: 4//rowSpacing / 2
 
     height: childrenRect.height
 
@@ -51,7 +51,7 @@ Item {
             right: parent.horizontalCenter
             rightMargin: gagueOffset//vw(1)
             top: frontRegenIndicator.bottom
-            topMargin: vh(-0.8)
+            topMargin: vh(-0.85)
         }
         height: gaugeHeight
         value: rearRegen
@@ -67,7 +67,7 @@ Item {
             leftMargin: gagueOffset//vw(1)
             right: parent.right
             top: frontPowerIndicator.bottom
-            topMargin: vh(-0.8)
+            topMargin: vh(-0.85)
         }
         height: gaugeHeight
         value:  rearPower

@@ -8,7 +8,7 @@ import Gauges 1.0
 Item {
     id: app
 
-    readonly property int rowSpacing: vh(3)
+    readonly property int rowSpacing: vh(4)
 
     readonly property int contourLineWidth: vh(0.8)
     readonly property int separatorLineWidth: 0.002 * height
@@ -23,7 +23,7 @@ Item {
 
     property real time: 0
 
-    // THe indicator bar is really thin and displays at the top of the screen
+    // The indicator bar is really thin and displays at the top of the screen
     IndicatorBar {
         id: indicatorBar
         width: vw(100)
@@ -61,7 +61,7 @@ Item {
             topMargin: rowSpacing
         }
         width: vw(100)
-        height: vh(18)
+        height: vh(15)
     }
 
     // time code indicator (debug)

@@ -13,23 +13,19 @@ Item {
     property int battTemp: 0
 
     readonly property int gaugeWidth: vw(12)
+    readonly property int gaugeSpacing: vw(1)
 
     RowLayout {
         anchors {
             fill: parent
         }
         height: parent.height
-        spacing: rowSpacing
+        spacing: gaugeSpacing
 
         CaptionTextGauge {
-            id: regenGauge
             Layout.preferredWidth: gaugeWidth
-            Layout.preferredHeight: parent.height
-            // anchors {
-            //     left: parent.left
-            //     leftMargin: rowSpacing
-            // }
-            //width: gaugeWidth
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             height: parent.height
             caption: "REGEN"
             value: regenPowerLimit
@@ -37,54 +33,63 @@ Item {
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
-            Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             caption: "DRIVE"
             value: drivePowerLimit
         }
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
-            Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             caption: "TEMP"
             value: drivetrainTemp
         }
 
         Rectangle {
             Layout.preferredWidth: vw(0.4)
-            Layout.preferredHeight: parent.height
+            //Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             color: Colors.grey
         }
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
-            Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             caption: "AUX"
             value: auxPower.toFixed(1)
         }
 
         Rectangle {
             Layout.preferredWidth: vw(0.3)
-            Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             color: Colors.grey
         }
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
-            Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             caption: "RANGE"
             value: expectedRange
         }
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
-            Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             caption: "TRIP"
             value: ratedConsumption
         }
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
-            Layout.preferredHeight: parent.height
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
             caption: "TEMP"
             value: battTemp
         }
