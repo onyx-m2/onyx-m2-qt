@@ -1,4 +1,4 @@
-QT += quick serialbus
+QT += quick serialbus svg
 
 CONFIG += c++17
 

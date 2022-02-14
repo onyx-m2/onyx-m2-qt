@@ -44,7 +44,7 @@ Item {
         Rectangle {
             anchors {
                 fill: prnd
-                margins: -24
+                margins: vh(-2)
             }
             radius: 4
             color: {
