@@ -11,5 +11,6 @@ Timer {
       return canbus.signal(mnemonic)
     }
 
+    Component.onCompleted: update()
     onTriggered: update()
 }
