@@ -89,56 +89,14 @@ void Canbus::processMessage(int bus, const QCanBusFrame& frame) {
         lastReceivedMessageTimestamp = ts.seconds() + (qreal)ts.microSeconds() / 1000000;
         const dbcppp::IMessage* msg = it->second;
         if (bus == BUSES[msg->Transmitter()]) {
-//            std::cout << msg->Name() << " on " << msg->Transmitter() << std::endl;
             for (const dbcppp::ISignal& sig : msg->Signals()) {
                 QByteArray payload = frame.payload();
                 const dbcppp::ISignal* mux_sig = msg->MuxSignal();
                 if (sig.MultiplexerIndicator() != dbcppp::ISignal::EMultiplexer::MuxValue ||
                     (mux_sig && mux_sig->Decode(payload) == sig.MultiplexerSwitchValue())) {
-//                            if (id == 921) {
-//                                std::cout << "bus: " << std::to_string(bus) << " | " << sig.Name() << ": " << sig.RawToPhys(sig.Decode(data)) << std::endl;
-//                            }
                     signalMap[sig.Name()] = sig.RawToPhys(sig.Decode(payload));
-                    //std::cout << "  " << sig.Name() << " = " << signalMap[sig.Name()] << " " << sig.Unit() << std::endl;
                 }
             }
         }
     }
 }
-
-//void Canbus::runSimulation(const QString& filename) {
-//    QThread *thread = QThread::create([this, filename]{
-//        std::ifstream stream(filename.toStdString(), std::ifstream::binary);
-//        uint32_t previousTs = 0;
-//        while (!stream.eof()) {
-//            uint32_t ts;
-//            stream.read(reinterpret_cast<char*>(&ts), sizeof(ts));
-
-//            uint8_t bus;
-//            stream.read(reinterpret_cast<char*>(&bus), 1);
-
-//            uint16_t id;
-//            stream.read(reinterpret_cast<char*>(&id), sizeof(id));
-
-//            uint8_t len;
-//            stream.read(reinterpret_cast<char*>(&len), sizeof(len));
-
-//            uint8_t data[8];
-//            stream.read(reinterpret_cast<char*>(&data), len);
-
-//            //std::cout << ts << " : " << id << std::endl;
-
-//            if (previousTs != 0) {
-//                QThread::msleep(ts - previousTs);
-//            }
-//            previousTs = ts;
-
-//            QByteArray payload(reinterpret_cast<char*>(data), 8);
-//            QCanBusFrame frame(id, payload);
-//            frame.setTimeStamp(QCanBusFrame::TimeStamp(ts / 1000, (ts % 1000) * 1000));
-//            processMessage(bus, frame);
-//        }
-//        std::cout << "Simulation done" << std::endl;
-//    });
-//    thread->start();
-//}

@@ -16,10 +16,9 @@
 
 const int QML_ARG = 1;
 const int DBC_ARG = 2;
-const int SIM_ARG = 3;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
+
     // allow console output to work on Windows
     #ifdef _WIN32
     if (AttachConsole(ATTACH_PARENT_PROCESS)) {
@@ -32,8 +31,8 @@ int main(int argc, char *argv[])
 
     // setup the app and parse the args
     QGuiApplication app(argc, argv);
-    if (app.arguments().size() < SIM_ARG) {
-        std::cout << "Usage: onyx-pi-2 qmldir car.dbc [simulation.dat]" << std::endl;
+    if (app.arguments().size() < DBC_ARG) {
+        std::cout << "Usage: onyx-m2-qt qmldir car.dbc" << std::endl;
         return 1;
     }
 
@@ -134,13 +133,6 @@ int main(int argc, char *argv[])
     QString dbcfile = app.arguments().at(DBC_ARG);
     qDebug() << "CAN signals decoding from:" << dbcfile;
     canbus.start(dbcfile);
-
-//    // run a simulation based on previously capture logs, if requested
-//    if (app.arguments().size() > SIM_ARG) {
-//        QString simfile = app.arguments().at(SIM_ARG);
-//        qDebug() << "CAN simulation from:" << simfile;
-//        canbus.runSimulation(simfile);
-//    }
 
     return app.exec();
 }
