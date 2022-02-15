@@ -6,7 +6,8 @@ import Theme 1.0
 import Gauges 1.0
 
 Item {
-    property int odometer: 0
+    property real odometer: 0
+    property int soc: 0
     property int capacity: 0
     readonly property int indicatorWidth: vw(35)
     readonly property int indicatorHeight: vh(18)
@@ -14,9 +15,10 @@ Item {
     Image {
         anchors {
             horizontalCenter: parent.horizontalCenter
+            verticalCenter: parent.verticalCenter
         }
         id: logo
-        sourceSize.height: vh(35)
+        sourceSize.height: vh(30)
         fillMode: Image.PreserveAspectFit
         source: 'assets/tesla.png'
     }
@@ -24,22 +26,48 @@ Item {
     CaptionTextGauge {
         anchors {
             left: parent.left
-            bottom : parent.bottom
+            bottom : parent.verticalCenter
+            bottomMargin: rowSpacing
         }
         width: indicatorWidth
         height: indicatorHeight
-        caption: 'ODOMETER'
-        value: odometer
+        caption: 'Trip'
+        value: odometer - tripStartOdometer
+    }
+
+    CaptionTextGauge {
+        anchors {
+            left: parent.left
+            top : parent.verticalCenter
+            topMargin: rowSpacing
+        }
+        width: indicatorWidth
+        height: indicatorHeight
+        caption: 'Odometer'
+        value: Math.round(odometer)
     }
 
     CaptionTextGauge {
         anchors {
             right: parent.right
-            bottom : parent.bottom
+            bottom : parent.verticalCenter
+            bottomMargin: rowSpacing
         }
         width: indicatorWidth
         height: indicatorHeight
-        caption: 'CAPACITY'
+        caption: 'Battery'
+        value: soc
+    }
+
+    CaptionTextGauge {
+        anchors {
+            right: parent.right
+            top : parent.verticalCenter
+            topMargin: rowSpacing
+        }
+        width: indicatorWidth
+        height: indicatorHeight
+        caption: 'Capacity'
         value: capacity
     }
 
@@ -47,6 +75,7 @@ Item {
         interval: 1000
         onUpdate: {
             odometer = sig('UI_odometer')
+            soc = sig('UI_usableSOC')
             const nominalFullPack = sig('BMS_nominalFullPackEnergy')
             const initialFullPack = sig('BMS_initialFullPackEnergy')
             if (nominalFullPack !== 0 && initialFullPack !== 0) {
