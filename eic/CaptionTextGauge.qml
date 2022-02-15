@@ -14,7 +14,7 @@ Item {
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
         color: (value !== 0) ? gauge.color : Colors.grey
-        font.pixelSize: gauge.height * 0.35
+        font.pixelSize: gauge.height * 0.30
         font.weight: Font.Medium
         text: caption
     }

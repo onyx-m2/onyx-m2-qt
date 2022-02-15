@@ -20,7 +20,7 @@ Item {
         }
         width: smallIndicatorWidth
         height: parent.height
-        caption: "MAX"
+        caption: "Maximum"
         value: speedLimit
         color: speedLimitKnown ? Colors.white : Colors.grey
     }
@@ -64,12 +64,12 @@ Item {
                 //offsetVertical: 10
             }
             text: {
-                const gears = ["OFF", "P", "R", "N", "D", "", "", "OFF"]
+                const gears = ["", "P", "R", "N", "D", "", "", ""]
                 if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
-                    return "HOLD"
+                    return "Hold"
                 }
                 if (autopilotState === 3 /* ACTIVE_NOMINAL */) {
-                    return 'A'
+                    return 'Auto'
                 }
                 return gears[gear]
             }

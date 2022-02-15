@@ -10,6 +10,7 @@ Item {
     property int expectedRange: 0
     property int idealRange: 0
     property int ratedConsumption: 0
+    property int tripConsumption: 0
     property int battTemp: 0
 
     readonly property int gaugeWidth: vw(12)
@@ -27,7 +28,7 @@ Item {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
             height: parent.height
-            caption: "REGEN"
+            caption: "Regen"
             value: regenPowerLimit
         }
 
@@ -35,7 +36,7 @@ Item {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            caption: "DRIVE"
+            caption: "Drive"
             value: drivePowerLimit
         }
 
@@ -43,7 +44,7 @@ Item {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            caption: "TEMP"
+            caption: "Temp"
             value: drivetrainTemp
         }
 
@@ -59,7 +60,7 @@ Item {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            caption: "AUX"
+            caption: "Aux"
             value: auxPower.toFixed(1)
         }
 
@@ -74,7 +75,7 @@ Item {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            caption: "RANGE"
+            caption: "Range"
             value: expectedRange
         }
 
@@ -82,15 +83,15 @@ Item {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            caption: "TRIP"
-            value: ratedConsumption
+            caption: "Trip"
+            value: tripConsumption || ratedConsumption
         }
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            caption: "TEMP"
+            caption: "Temp"
             value: battTemp
         }
 
@@ -117,6 +118,13 @@ Item {
             const minBattT = sig('BMS_thermistorTMin')
             const maxBattT =sig('BMS_thermistorTMax')
             battTemp = (maxBattT + minBattT) / 2
+
+            const odometer = sig('UI_odometer')
+            const energy = sig('BMS_nominalEnergyRemaining')
+            const tripDistance = odometer - tripStartOdometer
+            if (tripDistance > 0) {
+                tripConsumption = (tripStartEnergy - energy) * 1000 / tripDistance
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ Item {
             fill: parent
         }
         value: soc
-        caption: 'BATT'
+        caption: 'Battery'
         color: gaugeColor
     }
 
