@@ -13,11 +13,28 @@ panel, and have the hard wired to the Pi mounted behind the steering wheel.
 
 ## Build & Install
 
+To build on Windows (for development), I just use `Qt Creator`, and this should work
+out of the box(ish).
+
+To build on a Raspberry Pi, I suggest using a buildroot cross-compilation environment. I'll publish my own here "soon", but in the meantime, this should
+work to build if you have a buildroot toolchain setup:
+
 ```
 git clone --recurse-submodules https://github.com/onyx-m2/onyx-m2-qt
-```
 
-Then it's complicated... will clean up and document "soon".
+mkdir -p build/rpi/dbcppp
+cd build/rpi/dbcppp
+~/buildroot/output/host/bin/cmake -DCMAKE_BUILD_TYPE=Release ../../../dbcppp
+make
+
+cd ..
+~/buildroot/output/host/bin/qmake ../../onyx-m2-qt.pro
+make
+```
+To install, you'll need to copy the newly built binary, the `eic` directory,
+and the `dbc` file to the Raspberry Pi (I just have it in `/root`), and you
+should be able to run the EIC. The UI is designed around using a screen that
+is natively 1920x1080, but where only the top half is used.
 
 ## Random Notes
 
