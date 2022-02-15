@@ -1,4 +1,4 @@
-QT += quick serialbus svg
+QT += quick serialbus
 
 CONFIG += c++17
 
@@ -24,7 +24,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 win32: LIBS += -L$$PWD/dbcppp/build/src/libdbcppp/Release/ -llibdbcppp
-unix: LIBS += -L/home/john/dbcppp/build -L/home/john/dbcppp/build/src/libdbcppp -ldbcppp
+unix: LIBS += -L$$PWD/build/rpi/dbcppp -L$$PWD/build/rpi/dbcppp/src/libdbcppp -ldbcppp
 
 INCLUDEPATH += $$PWD/dbcppp/include/dbcppp
 DEPENDPATH += $$PWD/dbcppp/include/dbcppp

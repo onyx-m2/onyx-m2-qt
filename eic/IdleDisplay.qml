@@ -1,4 +1,3 @@
-import QtGraphicalEffects 1.12
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Shapes 1.15
@@ -17,15 +16,9 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
         id: logo
-        sourceSize.width: vw(25)
+        sourceSize.height: vh(35)
         fillMode: Image.PreserveAspectFit
-        source: 'assets/tesla.svg'
-    }
-
-    ColorOverlay {
-        anchors.fill: logo
-        source: logo
-        color: Colors.white
+        source: 'assets/tesla.png'
     }
 
     CaptionTextGauge {
