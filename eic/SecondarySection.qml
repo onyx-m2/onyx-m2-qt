@@ -83,7 +83,7 @@ Item {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            caption: "Trip"
+            caption: tripConsumption ? "Trip" : "Rated"
             value: tripConsumption || ratedConsumption
         }
 
@@ -119,11 +119,12 @@ Item {
             const maxBattT =sig('BMS_thermistorTMax')
             battTemp = (maxBattT + minBattT) / 2
 
-            const odometer = sig('UI_odometer')
-            const energy = sig('BMS_nominalEnergyRemaining')
-            const tripDistance = odometer - tripStartOdometer
+            const tripCharge = sig('BMS_kwhChargeTotal') - tripStartCharge
+            const tripDischarge = sig('BMS_kwhDischargeTotal') - tripStartDischarge
+            const tripEnergy = tripDischarge - tripCharge
+            const tripDistance = sig('UI_odometer') - tripStartOdometer
             if (tripDistance > 0) {
-                tripConsumption = (tripStartEnergy - energy) * 1000 / tripDistance
+                tripConsumption = Math.round(tripEnergy * 1000 / tripDistance)
             }
         }
     }

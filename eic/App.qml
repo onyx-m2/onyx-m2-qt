@@ -15,7 +15,8 @@ Item {
 
     property bool tripInProgress: false
     property real tripStartOdometer: 0
-    property real tripStartEnergy: 0
+    property real tripStartDischarge: 0
+    property real tripStartCharge: 0
     property int tripStartTime: 0
 
     property real timestamp: 0
@@ -63,7 +64,8 @@ Item {
             else {
                 if (!tripInProgress) {
                     tripInProgress = true
-                    tripStartEnergy = sig('BMS_nominalEnergyRemaining')
+                    tripStartDischarge = sig('BMS_kwhDischargeTotal')
+                    tripStartCharge = sig('BMS_kwhChargeTotal')
                     tripStartOdometer = sig('UI_odometer')
                     tripStartTime = sig('UTC_unixTime')
                 }

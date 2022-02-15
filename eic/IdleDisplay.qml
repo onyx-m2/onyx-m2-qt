@@ -32,7 +32,7 @@ Item {
         width: indicatorWidth
         height: indicatorHeight
         caption: 'Trip'
-        value: odometer - tripStartOdometer
+        value: tripStartOdometer != 0 ? odometer - tripStartOdometer : 0
     }
 
     CaptionTextGauge {
