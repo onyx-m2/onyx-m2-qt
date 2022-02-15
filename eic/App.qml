@@ -13,6 +13,11 @@ Item {
     function vh(pct) { return pct * height / 100 }
     function vw(pct) { return pct * width / 100 }
 
+    property bool tripInProgress: false
+    property real tripStartOdometer: 0
+    property real tripStartEnergy: 0
+    property int tripStartTime: 0
+
     property real timestamp: 0
 
     Loader {
@@ -52,9 +57,16 @@ Item {
                 display.source = 'ChargingDisplay.qml'
             }
             else if (gear === 0 || gear === 7 /* SNA */) {
+                tripInProgress = false
                 display.source = 'IdleDisplay.qml'
             }
             else {
+                if (!tripInProgress) {
+                    tripInProgress = true
+                    tripStartEnergy = sig('BMS_nominalEnergyRemaining')
+                    tripStartOdometer = sig('UI_odometer')
+                    tripStartTime = sig('UTC_unixTime')
+                }
                 display.source = 'DrivingDisplay.qml'
             }
             timestamp = canbus.timestamp()//sig('UTC_seconds') //
