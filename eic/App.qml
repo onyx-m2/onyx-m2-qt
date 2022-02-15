@@ -28,23 +28,24 @@ Item {
     }
 
     // time code indicator (debug)
-    Rectangle {
-        anchors {
-            top: display.bottom
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-        }
-        color: Colors.grey
-        Text {
-            anchors {
-                right: parent.right
-                bottom: parent.bottom
-            }
-            text: timestamp
-            font.pixelSize: vh(5)
-        }
-    }
+    // Rectangle {
+    //     anchors {
+    //         top: display.bottom
+    //         left: parent.left
+    //         right: parent.right
+    //         bottom: parent.bottom
+    //     }
+    //     color: Colors.grey
+    //     Text {
+    //         anchors {
+    //             right: parent.right
+    //             bottom: parent.bottom
+    //         }
+    //         text: timestamp
+    //         font.pixelSize: vh(5)
+    //         color: Colors.white
+    //     }
+    // }
 
     Canbus {
         onUpdate: {
