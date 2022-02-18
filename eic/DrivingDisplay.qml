@@ -11,7 +11,7 @@ Item {
     IndicatorBar {
         id: indicatorBar
         width: vw(100)
-        height: vh(0.6)
+        height: lineWidth
     }
 
     // The primary section holds the speed and battery gauges, as well as the PRND

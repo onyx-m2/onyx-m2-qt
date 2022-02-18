@@ -3,7 +3,6 @@ import QtQuick.Layouts 1.15
 import Theme 1.0
 
 Item {
-    //border.color: 'red'
     id: indicator
     property real value
     property real maxValue
@@ -26,21 +25,14 @@ Item {
     Rectangle {
         id: backgroundBar
         width: parent.width
-        height: vh(0.6)
-        // anchors {
-        //     left: parent.left
-        //     bottom: parent.bottom
-        // }
+        height: parent.height
         color: Colors.grey
     }
 
     Rectangle {
         id: valueBar
         width: parent.width * Math.min(value / maxValue, maxValue)
-        height: vh(0.6)
-        // anchors {
-        //     bottom: parent.bottom
-        // }
+        height: parent.height
         color: indicator.color
         visible: maxValue > 0
 

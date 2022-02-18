@@ -10,6 +10,8 @@ Item {
     id: app
 
     readonly property int rowSpacing: vh(4)
+    readonly property int lineWidth: vh(0.6)
+
     function vh(pct) { return pct * height / 100 }
     function vw(pct) { return pct * width / 100 }
 

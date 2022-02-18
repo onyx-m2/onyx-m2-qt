@@ -1,5 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Layouts 1.15
 import Theme 1.0
 
 Item {
@@ -7,11 +6,10 @@ Item {
     property int frontPower: 0
     property int rearRegen: 0
     property int rearPower: 0
-    property int drivePowerLimit: 0
-    property int regenPowerLimit: 0
+    property int driveMaxPower: 50
+    property int regenMaxPower: 50
 
-    readonly property int gaugeHeight: rowSpacing / 2
-    readonly property int gagueOffset: 4//rowSpacing / 2
+    readonly property int gagueOffset: lineWidth
 
     height: childrenRect.height
 
@@ -21,12 +19,12 @@ Item {
             top: parent.top
             left: parent.left
             right: parent.horizontalCenter
-            rightMargin: gagueOffset//vw(1)
+            rightMargin: gagueOffset
         }
-        height: gaugeHeight
+        height: lineWidth
         value: frontRegen
         color: Colors.green
-        maxValue: regenPowerLimit
+        maxValue: regenMaxPower
         state: 'reverse'
     }
 
@@ -35,13 +33,12 @@ Item {
         anchors {
             top: parent.top
             left: parent.horizontalCenter
-            leftMargin: gagueOffset//vw(1)
+            leftMargin: gagueOffset
             right: parent.right
         }
-        //width: vw(48)
-        height: gaugeHeight
+        height: lineWidth
         value: frontPower
-        maxValue: drivePowerLimit
+        maxValue: driveMaxPower
     }
 
     LineGauge {
@@ -49,14 +46,13 @@ Item {
         anchors {
             left: parent.left
             right: parent.horizontalCenter
-            rightMargin: gagueOffset//vw(1)
+            rightMargin: gagueOffset
             top: frontRegenIndicator.bottom
-            topMargin: vh(-0.85)
         }
-        height: gaugeHeight
+        height: lineWidth
         value: rearRegen
         color: Colors.green
-        maxValue: regenPowerLimit
+        maxValue: regenMaxPower
         state: 'reverse'
     }
 
@@ -67,33 +63,42 @@ Item {
             leftMargin: gagueOffset//vw(1)
             right: parent.right
             top: frontPowerIndicator.bottom
-            topMargin: vh(-0.85)
         }
-        height: gaugeHeight
+        height: lineWidth
         value:  rearPower
-        maxValue: drivePowerLimit
+        maxValue: driveMaxPower
     }
 
     Canbus {
         onUpdate: {
             const elecPower = sig('DI_elecPower')
             if (elecPower < 0) {
-                rearRegen = -elecPower
                 rearPower = 0
+                rearRegen = -elecPower
+                if (rearRegen > regenMaxPower) {
+                    regenMaxPower = rearRegen
+                }
             } else {
-                rearPower = elecPower
                 rearRegen = 0
+                rearPower = elecPower
+                if (rearPower > driveMaxPower) {
+                    driveMaxPower = rearPower
+                }
             }
             const frontElecPower = sig('DI_frontElecPower')
             if (frontElecPower < 0) {
-                frontRegen = -frontElecPower
                 frontPower = 0
+                frontRegen = -frontElecPower
+                if (frontRegen > regenMaxPower) {
+                    regenMaxPower = frontRegen
+                }
             } else {
-                frontPower = frontElecPower
                 frontRegen = 0
+                frontPower = frontElecPower
+                if (frontPower > driveMaxPower) {
+                    driveMaxPower = frontPower
+                }
             }
-            drivePowerLimit = sig('DI_sysDrivePowerMax')
-            regenPowerLimit = sig('DI_sysRegenPowerMax')
         }
     }
 }
