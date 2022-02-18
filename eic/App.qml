@@ -19,33 +19,11 @@ Item {
     property real tripStartCharge: 0
     property int tripStartTime: 0
 
-    property real timestamp: 0
-
     Loader {
         id: display
         width: vw(100)
         height: vh(50)
     }
-
-    // time code indicator (debug)
-    // Rectangle {
-    //     anchors {
-    //         top: display.bottom
-    //         left: parent.left
-    //         right: parent.right
-    //         bottom: parent.bottom
-    //     }
-    //     color: Colors.grey
-    //     Text {
-    //         anchors {
-    //             right: parent.right
-    //             bottom: parent.bottom
-    //         }
-    //         text: timestamp
-    //         font.pixelSize: vh(5)
-    //         color: Colors.white
-    //     }
-    // }
 
     Canbus {
         onUpdate: {
@@ -72,7 +50,6 @@ Item {
                 }
                 display.source = 'DrivingDisplay.qml'
             }
-            timestamp = canbus.timestamp()//sig('UTC_seconds') //
         }
     }
 }
