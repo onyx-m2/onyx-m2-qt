@@ -1,74 +1,77 @@
 import QtQuick 2.15
-import QtQuick.Window 2.15
-import QtQuick.Shapes 1.15
-import QtQuick.Layouts 1.15
 import Theme 1.0
-import Gauges 1.0
 
 Item {
+    property string time: ''
     property real odometer: 0
     property int soc: 0
+    property int temp: 0
     property int capacity: 0
     readonly property int indicatorWidth: vw(35)
     readonly property int indicatorHeight: vh(18)
 
-    Image {
+    Text {
+        anchors {
+            left: parent.left
+            bottom : parent.bottom
+        }
+        text: time
+        color: Colors.white
+        font.pixelSize: vh(6)
+    }
+
+    Text {
+        id: socText
         anchors {
             horizontalCenter: parent.horizontalCenter
-            verticalCenter: parent.verticalCenter
+            bottom : parent.bottom
         }
-        id: logo
-        sourceSize.height: vh(30)
-        fillMode: Image.PreserveAspectFit
-        source: 'assets/tesla.png'
-    }
+        text: `${odometer.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} km`//`${soc} %`
+        color: Colors.white
+        font.pixelSize: vh(6)
+}
 
-    CaptionTextGauge {
-        anchors {
-            left: parent.left
-            bottom : parent.verticalCenter
-            bottomMargin: rowSpacing
-        }
-        width: indicatorWidth
-        height: indicatorHeight
-        caption: 'Trip'
-        value: tripStartOdometer != 0 ? odometer - tripStartOdometer : 0
-    }
-
-    CaptionTextGauge {
-        anchors {
-            left: parent.left
-            top : parent.verticalCenter
-            topMargin: rowSpacing
-        }
-        width: indicatorWidth
-        height: indicatorHeight
-        caption: 'Odometer'
-        value: Math.round(odometer)
-    }
-
-    CaptionTextGauge {
+    Text {
         anchors {
             right: parent.right
-            bottom : parent.verticalCenter
-            bottomMargin: rowSpacing
+            bottom : parent.bottom
         }
-        width: indicatorWidth
-        height: indicatorHeight
-        caption: 'Battery'
-        value: soc
+        text: `${capacity} %` //${temp} °c`
+        color: Colors.white
+        font.pixelSize: vh(6)
+}
+
+    Rectangle {
+        id: separator
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: socText.top
+            topMargin: -rowSpacing
+        }
+        color: Colors.black
+        height: vh(0.1)
     }
 
-    CaptionTextGauge {
+    Item {
+        id: topSection
         anchors {
+            left: parent.left
             right: parent.right
-            top : parent.verticalCenter
-            topMargin: rowSpacing
+            top: parent.top
+            bottom: separator.top
         }
-        width: indicatorWidth
-        height: indicatorHeight
-        caption: 'Capacity'
-        value: capacity
+
+        Image {
+            id: logo
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                verticalCenter: parent.verticalCenter
+            }
+            sourceSize.height: parent.height
+            fillMode: Image.PreserveAspectFit
+            source: 'assets/silhouette.png'
+        }
     }
 
     Canbus {
@@ -76,6 +79,13 @@ Item {
         onUpdate: {
             odometer = sig('UI_odometer')
             soc = sig('UI_usableSOC')
+
+            time = new Date().toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit'
+            }).toLocaleLowerCase()
+
+            // battery capacity (i.e. opposite of "degradation")
             const nominalFullPack = sig('BMS_nominalFullPackEnergy')
             const initialFullPack = sig('BMS_initialFullPackEnergy')
             if (nominalFullPack !== 0 && initialFullPack !== 0) {
