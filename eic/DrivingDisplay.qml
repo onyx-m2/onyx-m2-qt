@@ -19,11 +19,22 @@ Item {
     PrimarySection {
         id: primarySection
         anchors {
-            top: indicatorBar.bottom
-            topMargin: rowSpacing
+            bottom: parent.verticalCenter
+            bottomMargin: rowSpacing
         }
         width: vw(100)
         height: vh(18)
+    }
+
+    SecondarySection {
+        id: secondarySection
+        anchors {
+            top: parent.verticalCenter
+            //top: primarySection.bottom
+            topMargin: rowSpacing
+        }
+        width: vw(100)
+        height: vh(15)
     }
 
     // The power section shows power/regen for all motors, and is second in size to
@@ -31,19 +42,8 @@ Item {
     PowerSection {
         id: powerSection
         anchors {
-            top: primarySection.bottom
-            topMargin: rowSpacing
+            bottom: parent.bottom
         }
         width: vw(100)
-    }
-
-    SecondarySection {
-        id: secondarySection
-        anchors {
-            top: powerSection.bottom
-            topMargin: rowSpacing
-        }
-        width: vw(100)
-        height: vh(15)
     }
 }

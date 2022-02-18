@@ -20,7 +20,7 @@ Item {
         }
         width: smallIndicatorWidth
         height: parent.height
-        caption: "Maximum"
+        caption: "MAX"
         value: speedLimit
         color: speedLimitKnown ? Colors.white : Colors.grey
     }
@@ -44,9 +44,9 @@ Item {
         Rectangle {
             anchors {
                 fill: prnd
-                margins: vh(-2)
+                margins: vh(-3)
             }
-            radius: 4
+            radius: vh(3)
             color: {
                 if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
                     return Colors.red
@@ -66,10 +66,10 @@ Item {
             text: {
                 const gears = ["", "P", "R", "N", "D", "", "", ""]
                 if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
-                    return "Hold"
+                    return "H"
                 }
                 if (autopilotState === 3 /* ACTIVE_NOMINAL */) {
-                    return 'Auto'
+                    return 'A'
                 }
                 return gears[gear]
             }

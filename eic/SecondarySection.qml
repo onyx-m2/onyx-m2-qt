@@ -5,10 +5,8 @@ import Theme 1.0
 Item {
     property int drivePowerLimit: 0
     property int regenPowerLimit: 0
-    property int drivetrainTemp: 0
     property real auxPower: 0
     property int expectedRange: 0
-    property int idealRange: 0
     property int ratedConsumption: 0
     property int tripConsumption: 0
     property int battTemp: 0
@@ -32,40 +30,8 @@ Item {
             value: regenPowerLimit
         }
 
-        CaptionTextGauge {
-            Layout.preferredWidth: gaugeWidth
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignCenter
-            caption: "Drive"
-            value: drivePowerLimit
-        }
-
-        CaptionTextGauge {
-            Layout.preferredWidth: gaugeWidth
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignCenter
-            caption: "Temp"
-            value: drivetrainTemp
-        }
-
         Rectangle {
             Layout.preferredWidth: vw(0.4)
-            //Layout.preferredHeight: parent.height
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignCenter
-            color: Colors.grey
-        }
-
-        CaptionTextGauge {
-            Layout.preferredWidth: gaugeWidth
-            Layout.fillHeight: true
-            Layout.alignment: Qt.AlignCenter
-            caption: "Aux"
-            value: auxPower.toFixed(1)
-        }
-
-        Rectangle {
-            Layout.preferredWidth: vw(0.3)
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
             color: Colors.grey
@@ -87,6 +53,23 @@ Item {
             value: tripConsumption || ratedConsumption
         }
 
+        Image {
+            Layout.preferredWidth: gaugeWidth
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
+            sourceSize.width: gaugeWidth
+            fillMode: Image.PreserveAspectFit
+            source: 'assets/road.png'
+        }
+
+        CaptionTextGauge {
+            Layout.preferredWidth: gaugeWidth
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
+            caption: "Aux"
+            value: auxPower.toFixed(1)
+        }
+
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
@@ -95,6 +78,20 @@ Item {
             value: battTemp
         }
 
+        Rectangle {
+            Layout.preferredWidth: vw(0.3)
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
+            color: Colors.grey
+        }
+
+        CaptionTextGauge {
+            Layout.preferredWidth: gaugeWidth
+            Layout.fillHeight: true
+            Layout.alignment: Qt.AlignCenter
+            caption: "Drive"
+            value: drivePowerLimit
+        }
     }
 
     Canbus {
@@ -102,9 +99,6 @@ Item {
         onUpdate: {
             drivePowerLimit = sig('DI_sysDrivePowerMax')
             regenPowerLimit = sig('DI_sysRegenPowerMax')
-            const statorT = sig('DI_statorT')
-            const inverterT = sig('DI_inverterT')
-            drivetrainTemp = (statorT + inverterT) / 2
 
             const packVoltage = sig('BMS_packVoltage')
             const packCurrent = sig('BMS_packCurrent')
@@ -112,7 +106,6 @@ Item {
             auxPower = Math.max(0, packVoltage * packCurrent / 1000 - drivePower)
 
             expectedRange = sig('UI_expectedRange')
-            idealRange = sig('UI_idealRange')
             ratedConsumption = sig('UI_ratedConsumption')
 
             const minBattT = sig('BMS_thermistorTMin')
