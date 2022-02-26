@@ -9,7 +9,7 @@ import Gauges 1.0
 Item {
     id: app
 
-    readonly property int rowSpacing: vh(4)
+    readonly property int rowSpacing: vh(5)
     readonly property int lineWidth: vh(0.6)
 
     function vh(pct) { return pct * height / 100 }

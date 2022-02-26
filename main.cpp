@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
     // size to HD (but quartered on Windows for more convenient testing)
     QQuickView view (&engine, nullptr);
     view.setColor(QColor("black"));
-    view.setTitle("Onyx Pi EIC");
+    view.setTitle("Onyx M2 Qt");
     int width = 1920;
     int height = 1080;
 #ifdef _WIN32

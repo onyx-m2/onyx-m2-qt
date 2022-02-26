@@ -1,4 +1,3 @@
-import QtGraphicalEffects 1.0
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
 import Theme 1.0
@@ -8,6 +7,7 @@ Item {
     property int regenPowerLimit: 0
     property real auxPower: 0
     property int expectedRange: 0
+    property int idealRange: 0
     property int ratedConsumption: 0
     property int tripConsumption: 0
     property int battTemp: 0
@@ -55,27 +55,13 @@ Item {
         }
 
         Image {
-            id: icon
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
             sourceSize.width: gaugeWidth
             fillMode: Image.PreserveAspectFit
             source: 'assets/road.png'
-            smooth: true
-            layer {
-                enabled: true
-                effect: ColorOverlay {
-                    color: Colors.grey
-                }
-            }
         }
-
-        // ColorOverlay {
-        //     anchors.fill: icon
-        //     source: icon
-        //     color: "#ff0000"  // make image like it lays under red glass
-        // }
 
         CaptionTextGauge {
             Layout.preferredWidth: gaugeWidth
@@ -114,6 +100,9 @@ Item {
         onUpdate: {
             drivePowerLimit = sig('DI_sysDrivePowerMax')
             regenPowerLimit = sig('DI_sysRegenPowerMax')
+            const statorT = sig('DI_statorT')
+            const inverterT = sig('DI_inverterT')
+            drivetrainTemp = (statorT + inverterT) / 2
 
             const packVoltage = sig('BMS_packVoltage')
             const packCurrent = sig('BMS_packCurrent')
@@ -121,6 +110,7 @@ Item {
             auxPower = Math.max(0, packVoltage * packCurrent / 1000 - drivePower)
 
             expectedRange = sig('UI_expectedRange')
+            idealRange = sig('UI_idealRange')
             ratedConsumption = sig('UI_ratedConsumption')
 
             const minBattT = sig('BMS_thermistorTMin')

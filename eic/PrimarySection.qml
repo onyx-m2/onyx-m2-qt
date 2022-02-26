@@ -61,7 +61,6 @@ Item {
             id: prnd
             anchors {
                 centerIn: parent
-                //offsetVertical: 10
             }
             text: {
                 const gears = ["", "P", "R", "N", "D", "", "", ""]

@@ -19,8 +19,8 @@ Item {
     PrimarySection {
         id: primarySection
         anchors {
-            bottom: parent.verticalCenter
-            bottomMargin: rowSpacing
+            top: indicatorBar.bottom
+            topMargin: rowSpacing
         }
         width: vw(100)
         height: vh(18)
@@ -29,8 +29,7 @@ Item {
     SecondarySection {
         id: secondarySection
         anchors {
-            top: parent.verticalCenter
-            //top: primarySection.bottom
+            top: primarySection.bottom
             topMargin: rowSpacing
         }
         width: vw(100)
