@@ -32,7 +32,7 @@ Item {
         id: leftStopIndicator
         anchors {
             left: leftTurnIndicator.right
-            leftMargin: rowSpacing
+            leftMargin: lineWidth * 2
         }
         width: indicatorWidth
         radius: indicatorRadius
@@ -45,9 +45,9 @@ Item {
         id: laneIndicator
         anchors {
             left: leftStopIndicator.right
-            leftMargin: rowSpacing
+            leftMargin: lineWidth * 2
             right: rightStopIndicator.left
-            rightMargin: rowSpacing
+            rightMargin: lineWidth * 2
         }
         height: parent.height
         radius: indicatorRadius
@@ -81,7 +81,7 @@ Item {
         id: rightStopIndicator
         anchors {
             right: rightTurnIndicator.left
-            rightMargin: rowSpacing
+            rightMargin: lineWidth * 2
         }
         width: indicatorWidth
         radius: indicatorRadius
@@ -101,25 +101,6 @@ Item {
         color: Colors.green
         opacity: (rightTurnLightStatus === 1) ? 1.0 : 0.0
     }
-
-    // lane keeping debug
-    // Rectangle {
-    //     anchors {
-    //         left: parent.left
-    //         top: parent.bottom
-    //         topMargin: 200
-    //     }
-    //     width: childrenRect.width
-    //     height: childrenRect.height
-    //     Text {
-    //         id: lpk
-    //         text: lanePositionKnown
-    //     }
-    //     Text {
-    //         anchors.top: lpk.bottom
-    //         text: deviationFromLaneCenter
-    //     }
-    // }
 
     Canbus {
         onUpdate: {
