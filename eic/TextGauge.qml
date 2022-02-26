@@ -54,7 +54,7 @@ Item {
         }
         horizontalAlignment: Text.AlignHCenter
         color: (value !== 0) ? indicator.color : Colors.grey
-        font.pixelSize: parent.height * 1.4
+        font.pixelSize: parent.height * 1.2
         font.weight: Font.Thin
         text: value
     }
