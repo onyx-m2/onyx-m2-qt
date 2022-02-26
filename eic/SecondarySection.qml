@@ -1,7 +1,7 @@
 import QtGraphicalEffects 1.0
 import QtQuick 2.0
 import QtQuick.Layouts 1.15
-import Theme 1.0
+import Components 1.0
 
 Item {
     property int drivePowerLimit: 0

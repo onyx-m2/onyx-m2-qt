@@ -2,8 +2,7 @@ import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Shapes 1.15
 import QtQuick.Layouts 1.15
-import Theme 1.0
-import Gauges 1.0
+import Components 1.0
 
 // VAL_ 530 BMS_state 0 "STANDBY" 1 "DRIVE" 2 "SUPPORT" 3 "CHARGE" 4 "FEIM" 5 "CLEAR_FAULT" 6 "FAULT" 7 "WELD" 8 "TEST" 9 "SNA";
 Item {

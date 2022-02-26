@@ -1,7 +1,5 @@
 import QtQuick 2.0
 
-pragma Singleton
-
 QtObject {
     readonly property color white: '#b0b0b0'
     readonly property color grey: '#5a5a5a'

@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import Theme 1.0
+import Components 1.0
 
 Item {
     property int frontRegen: 0

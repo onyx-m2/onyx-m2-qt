@@ -1,0 +1,3 @@
+module Components
+singleton Colors 1.0 Colors.qml
+Canbus 1.0 Canbus.qml

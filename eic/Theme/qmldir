@@ -1,3 +1,0 @@
-module Theme
-singleton Colors 1.0 Colors.qml
-singleton Theme 1.0 Theme.qml

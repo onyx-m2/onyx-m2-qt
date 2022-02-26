@@ -1,3 +1,0 @@
-module Gauges
-ArcGauge 1.0 ArcGauge.qml
-RingGauge 1.0 RingGauge.qml
