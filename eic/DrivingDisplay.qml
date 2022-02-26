@@ -3,7 +3,6 @@ import QtQuick.Window 2.15
 import QtQuick.Shapes 1.15
 import QtQuick.Layouts 1.15
 import Components 1.0
-import Gauges 1.0
 
 Item {
 
