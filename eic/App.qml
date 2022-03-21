@@ -22,7 +22,12 @@ Item {
 
     Loader {
         id: display
-        width: vw(100)
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+        }
+        //width: vw(100)
         height: vh(50)
     }
 
@@ -43,11 +48,13 @@ Item {
             }
             else {
                 if (!tripInProgress) {
-                    tripInProgress = true
                     tripStartDischarge = sig('BMS_kwhDischargeTotal')
                     tripStartCharge = sig('BMS_kwhChargeTotal')
                     tripStartOdometer = sig('UI_odometer')
                     tripStartTime = sig('UTC_unixTime')
+                    if (tripStartDischarge && tripStartCharge && tripStartOdometer && tripStartTime) {
+                        tripInProgress = true
+                    }
                 }
                 display.source = 'DrivingDisplay.qml'
             }

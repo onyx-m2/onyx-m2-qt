@@ -2,9 +2,10 @@ import QtQuick 2.0
 import QtQuick.Layouts 1.15
 import Components 1.0
 
-Item {
+TextGauge {
     property int speed: 0
     property int speedLimit: 0
+    property bool holding: false
     property color gaugeColor: Colors.white
 
     readonly property int withinSpeedLimit: 0
@@ -12,18 +13,17 @@ Item {
     readonly property int speedingOffense: 2
     readonly property int excessiveSpeedingOffense: 3
 
-    TextGauge {
-        anchors {
-           fill: parent
-        }
-        value: speed
-        units: 'km/h'
-        color: gaugeColor
-        state: 'rightAligned'
-        //caption: 'MAX'
-        //maxValue: speedLimit
-        //state: 'reverse'
-    }
+    // anchors {
+    //     horizontalCenter: parent.horizontalCenter
+    //     verticalCenter: parent.verticalCenter
+    // }
+    value: holding ? 'H' : speed
+    units: holding ? 'HOLD' : 'KM/H'
+    color: holding ? Colors.grey : gaugeColor
+    state: 'rightAligned'
+    //caption: 'MAX'
+    //maxValue: speedLimit
+    //state: 'reverse'
 
     /**
     * Returns wether the car is currently speeding, and if so, how badly. There are
@@ -74,6 +74,7 @@ Item {
 
     Canbus {
         onUpdate: {
+            // this is the current speed of the vehicle
             speed = sig('DI_uiSpeed')
 
             // if the car knows the speed limit, use this as the max value of the
@@ -88,10 +89,10 @@ Item {
             if (speedLimit > 0) {
                 switch (speedLimitStatus(speed, speedLimit)) {
                     case overSpeedLimit:
-                        gaugeColor = Colors.yellow
+                        gaugeColor = Colors.white
                         break
                     case speedingOffense:
-                        gaugeColor = Colors.orange
+                        gaugeColor = Colors.yellow
                         break
                     case excessiveSpeedingOffense:
                         gaugeColor = Colors.red
@@ -102,6 +103,16 @@ Item {
             } else {
                 gaugeColor = Colors.white
             }
+
+            // if the speed is zero, check whether the car is "holding"
+            if (speed == 0) {
+                // the ebr (emergency brake) status correlates to the car notion of
+                // 'holding' while stopped
+                const ebrStatus = sig('ESP_ebrStatus')
+                holding = (ebrStatus === 2) /* ACTUATING_DI_EBR */
+                gaugeColor = Colors.white
+            }
+
         }
     }
 

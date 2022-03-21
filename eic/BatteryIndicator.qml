@@ -7,14 +7,63 @@ Item {
     property int chargingLimit: 90
     property color gaugeColor: Colors.white
 
-    CaptionTextGauge {
+    Rectangle {
+        id: backing
         anchors {
-            fill: parent
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+            rightMargin: parent.width * 0.1
         }
-        value: soc
-        caption: 'SOC'
+        color: Colors.grey
+    }
+
+    Rectangle {
+        id: tab
+        anchors {
+            verticalCenter: backing.verticalCenter
+            left: backing.right
+            right: parent.right
+        }
+        height: backing.height * 0.6
+        color: soc > 90 ? Colors.white : Colors.grey
+    }
+
+    Rectangle {
+        id: level
+        anchors {
+            top: backing.top
+            //topMargin: backing.height * 0.1
+            bottom: backing.bottom
+            //bottomMargin: backing.height * 0.1
+            left: backing.left
+            right: backing.right
+            rightMargin: parent.width * (90 - soc) / 100
+        }
+        height: backing.height
         color: gaugeColor
     }
+
+    Text {
+        anchors {
+            right: backing.left
+            bottom: backing.bottom
+        }
+        text: `${soc}% `
+        color: gaugeColor
+        font.pixelSize: backing.height * 1.1
+        font.weight: Font.Medium
+    }
+
+    // CaptionTextGauge {
+    //     anchors {
+    //         fill: parent
+    //     }
+    //     value: soc
+    //     caption: 'SOC'
+    //     color: gaugeColor
+    // }
 
     Canbus {
         onUpdate: {

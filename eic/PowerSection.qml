@@ -8,10 +8,13 @@ Item {
     property int rearPower: 0
     property int driveMaxPower: 50
     property int regenMaxPower: 50
+    property int drivePowerLimit: 0
+    property int regenPowerLimit: 0
 
     readonly property int gagueOffset: lineWidth
 
-    height: childrenRect.height
+    width: parent.width
+    height: lineWidth * 3//childrenRect.height//lineWidth * 3
 
     LineGauge {
         id: frontRegenIndicator
@@ -25,7 +28,44 @@ Item {
         value: frontRegen
         color: Colors.green
         maxValue: regenMaxPower
+        state: 'reverseLabelAbove'
+    }
+
+    Rectangle {
+        anchors {
+            top: frontRegenIndicator.bottom
+            left: parent.left
+            right: parent.horizontalCenter
+            rightMargin: gagueOffset
+            bottom: rearRegenIndicator.top
+        }
+        color: Colors.grey
+    }
+
+    LineGauge {
+        id: rearRegenIndicator
+        anchors {
+            left: parent.left
+            right: parent.horizontalCenter
+            rightMargin: gagueOffset
+            bottom: parent.bottom
+        }
+        height: lineWidth
+        value: rearRegen
+        color: Colors.green
+        maxValue: regenMaxPower
         state: 'reverse'
+    }
+
+    Text {
+        anchors {
+            left: parent.left
+            bottom: rearRegenIndicator.top
+            bottomMargin: vh(1)
+        }
+        color: Colors.grey
+        text: regenPowerLimit
+        font.pixelSize: vh(6)
     }
 
     LineGauge {
@@ -39,35 +79,60 @@ Item {
         height: lineWidth
         value: frontPower
         maxValue: driveMaxPower
+        state: 'labelAbove'
     }
 
-    LineGauge {
-        id: rearRegenIndicator
+    Rectangle {
         anchors {
-            left: parent.left
-            right: parent.horizontalCenter
-            rightMargin: gagueOffset
-            top: frontRegenIndicator.bottom
+            top: frontPowerIndicator.bottom
+            left: parent.horizontalCenter
+            leftMargin: gagueOffset
+            right: parent.right
+            bottom: rearPowerIndicator.top
         }
-        height: lineWidth
-        value: rearRegen
-        color: Colors.green
-        maxValue: regenMaxPower
-        state: 'reverse'
+        color: Colors.grey
     }
 
     LineGauge {
         id: rearPowerIndicator
         anchors {
             left: parent.horizontalCenter
-            leftMargin: gagueOffset//vw(1)
+            leftMargin: gagueOffset
             right: parent.right
-            top: frontPowerIndicator.bottom
+            bottom: parent.bottom
         }
         height: lineWidth
         value:  rearPower
         maxValue: driveMaxPower
     }
+
+    Text {
+        anchors {
+            right: parent.right
+            bottom: rearPowerIndicator.top
+            bottomMargin: vh(1)
+        }
+        color: Colors.grey
+        text: drivePowerLimit
+        font.pixelSize: vh(6)
+    }
+
+    // Rectangle {
+    //     anchors {
+    //         top: rearPowerIndicator.top
+    //         left: rearPowerIndicator.left
+    //         leftMargin: rearPowerIndicator.length
+    //     }
+    //     width: vw(6)
+    //     height: vh(6)
+    //     Text {
+    //         text: rearPower
+    //         font.pixelSize: vh(6)
+    //         horizontalAlignment: Text.AlignRight
+    //     }
+    //     color: Colors.white
+    //     visible: rearPower != 0
+    // }
 
     Canbus {
         onUpdate: {
@@ -99,6 +164,8 @@ Item {
                     driveMaxPower = frontPower
                 }
             }
+            drivePowerLimit = sig('DI_sysDrivePowerMax')
+            regenPowerLimit = sig('DI_sysRegenPowerMax')
         }
     }
 }

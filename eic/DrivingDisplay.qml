@@ -10,7 +10,7 @@ Item {
     IndicatorBar {
         id: indicatorBar
         width: vw(100)
-        height: lineWidth
+        height: lineWidth * 2
     }
 
     // The primary section holds the speed and battery gauges, as well as the PRND
@@ -20,19 +20,23 @@ Item {
         anchors {
             top: indicatorBar.bottom
             topMargin: rowSpacing
+            bottom: powerSection.top
+            bottomMargin: rowSpacing
         }
         width: vw(100)
-        height: vh(18)
+        //height: vh(25)
     }
 
-    SecondarySection {
+    TripSection {
         id: secondarySection
         anchors {
-            top: primarySection.bottom
+            top: indicatorBar.bottom
             topMargin: rowSpacing
+            bottom: powerSection.top
+            bottomMargin: rowSpacing
         }
         width: vw(100)
-        height: vh(15)
+        // height: vh(15)
     }
 
     // The power section shows power/regen for all motors, and is second in size to
@@ -41,7 +45,20 @@ Item {
         id: powerSection
         anchors {
             bottom: parent.bottom
+            bottomMargin: vh(6)
+            //bottomMargin: batteryIndicator.height + rowSpacing
         }
         width: vw(100)
     }
+
+    // BatteryIndicator {
+    //     id: batteryIndicator
+    //     anchors {
+    //         bottom: parent.bottom
+    //         right: parent.right
+    //     }
+    //     width: vw(9)
+    //     height: vh(5)
+    // }
+
 }

@@ -49,7 +49,7 @@ Item {
             right: rightStopIndicator.left
             rightMargin: lineWidth * 2
         }
-        height: parent.height
+        height: parent.height / 2
         radius: indicatorRadius
         color: Colors.grey
     }
@@ -57,6 +57,7 @@ Item {
     Rectangle {
         anchors {
             centerIn: parent
+            verticalCenterOffset: laneIndicator.height
             horizontalCenterOffset: {
                 const maxOffset = (laneIndicator.width - width) / 2
                 const interval = maxOffset / 100
@@ -64,7 +65,7 @@ Item {
             }
         }
         width: vw(4)
-        height: parent.height
+        height: parent.height / 2
         radius: indicatorRadius
         opacity: lanePositionKnown ? 1.0 : 0.0
         color: Math.abs(deviationFromLaneCenter) < 100 ? Colors.white : Colors.yellow

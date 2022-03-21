@@ -6,11 +6,12 @@ Item {
     id: indicator
     //border.color: 'blue'
 
-    property real value
+    property string value
     property string units
     property color color: Colors.white
 
-    property int unitsFontSize: height * 0.3
+    property int fontSize: height * 0.80
+    property int unitsFontSize: height * 0.18
 
     // Rectangle {
     //     anchors {
@@ -49,27 +50,28 @@ Item {
         id: valueText
         anchors {
             top: parent.top
-            topMargin: vh(-0.6)
+            topMargin: vh(2.5)
             horizontalCenter: parent.horizontalCenter
         }
         horizontalAlignment: Text.AlignHCenter
-        color: (value !== 0) ? indicator.color : Colors.grey
-        font.pixelSize: parent.height * 1.2
+        color: (value != 0) ? indicator.color : Colors.grey
+        font.pixelSize: fontSize
         font.weight: Font.Thin
         text: value
     }
 
-    // Text {
-    //     id: unitsText
-    //     anchors {
-    //         right: valueText.right
-    //         bottom: valueText.bottom
-    //         //leftMargin: parent.height * 0.1
-    //         //bottom: valueText.bottom
-    //         //bottomMargin: parent.height * 0.1
-    //         //topMargin: -parent.height * 0.1
-    //         //left: parent.left
-    //     }
+    Text {
+        id: unitsText
+        anchors {
+            //right: valueText.right
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            //leftMargin: parent.height * 0.1
+            //bottom: valueText.bottom
+            //bottomMargin: vh(2)
+            //topMargin: -parent.height * 0.1
+            //left: parent.left
+        }
     //     // anchors {
     //     //     left: valueText.right
     //     //     leftMargin: parent.height * 0.1
@@ -84,13 +86,13 @@ Item {
     //     //     topMargin: -parent.height * 0.1
     //     //     //left: parent.left
     //     // }
-    //     color: (value !== 0) ? indicator.color : Colors.grey
-    //     font.pixelSize: unitsFontSize
-    //     text: units
+        color: /*(value !== 0) ? indicator.color : */Colors.grey
+        font.pixelSize: unitsFontSize
+        text: units
     //     //rotation: 270
     //     transform: [
     //         Rotation { origin.x: unitsText.width; origin.y: 0; angle: -90},
     //         Translate { y: -unitsText.width }
     //     ]
-    // }
+    }
 }

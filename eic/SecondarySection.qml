@@ -11,6 +11,9 @@ Item {
     property int ratedConsumption: 0
     property int tripConsumption: 0
     property int battTemp: 0
+    property int ebrStatus: 0
+    property int autopilotState: 0
+    property int handsOnState: 0
 
     readonly property int gaugeWidth: vw(12)
     readonly property int gaugeSpacing: vw(1)
@@ -54,27 +57,56 @@ Item {
             value: tripConsumption || ratedConsumption
         }
 
-        Image {
-            id: icon
+        // Rectangle {
+        //     Layout.preferredWidth: vw(0.3)
+        //     Layout.fillHeight: true
+        //     Layout.alignment: Qt.AlignCenter
+        //     color: Colors.grey
+        // }
+
+        Item {
             Layout.preferredWidth: gaugeWidth
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignCenter
-            sourceSize.width: gaugeWidth
-            fillMode: Image.PreserveAspectFit
-            source: 'assets/road.png'
-            smooth: true
-            layer {
-                enabled: true
-                effect: ColorOverlay {
-                    color: Colors.grey
+
+            Image {
+                anchors.fill: parent
+                sourceSize.width: gaugeWidth
+                fillMode: Image.PreserveAspectFit
+                source: {
+                    if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
+                        return 'assets/hold.png'
+                    }
+                    if (autopilotState === 2 /* AVAILABLE */ || autopilotState === 3 /* ACTIVE_NOMINAL */) {
+                        return 'assets/steering-wheel.png'
+                    }
+                    return ''
+                }
+                smooth: true
+                layer {
+                    enabled: true
+                    effect: ColorOverlay {
+                        color: {
+                            if (ebrStatus === 2 /* ACTUATING_DI_EBR */) {
+                                return Colors.red
+                            }
+                            if (autopilotState === 3 /* ACTIVE_NOMINAL */) {
+                                return Colors.blue
+                            }
+                            return Colors.grey
+                        }
+
+                    }
                 }
             }
+
         }
 
-        // ColorOverlay {
-        //     anchors.fill: icon
-        //     source: icon
-        //     color: "#ff0000"  // make image like it lays under red glass
+        // Rectangle {
+        //     Layout.preferredWidth: vw(0.3)
+        //     Layout.fillHeight: true
+        //     Layout.alignment: Qt.AlignCenter
+        //     color: Colors.grey
         // }
 
         CaptionTextGauge {
@@ -117,8 +149,9 @@ Item {
 
             const packVoltage = sig('BMS_packVoltage')
             const packCurrent = sig('BMS_packCurrent')
-            const drivePower = sig('DI_elecPower')
-            auxPower = Math.max(0, packVoltage * packCurrent / 1000 - drivePower)
+            const frontDrivePower = sig('DI_frontElecPower')
+            const rearDrivePower = sig('DI_elecPower')
+            auxPower = Math.max(0, packVoltage * packCurrent / 1000 - rearDrivePower - frontDrivePower)
 
             expectedRange = sig('UI_expectedRange')
             ratedConsumption = sig('UI_ratedConsumption')
@@ -134,6 +167,14 @@ Item {
             if (tripDistance > 0) {
                 tripConsumption = Math.round(tripEnergy * 1000 / tripDistance)
             }
+
+            // the ebr (emergency brake) status correlates to the car notion of
+            // 'holding' while stopped
+            ebrStatus = sig('ESP_ebrStatus')
+
+            // auto pilot states
+            autopilotState = sig('DAS_autopilotState')
+            handsOnState = sig('DAS_autopilotHandsOnState')
         }
     }
 }
