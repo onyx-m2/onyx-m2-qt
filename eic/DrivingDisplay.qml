@@ -5,6 +5,12 @@ import QtQuick.Layouts 1.15
 import Components 1.0
 
 Item {
+    property var overlays: [
+        'TripOverlay.qml',
+        'TirePressureOverlay.qml',
+        'TemperaturesOverlay.qml'
+    ]
+
 
     // The indicator bar is really thin and displays at the top of the screen
     IndicatorBar {
@@ -60,5 +66,22 @@ Item {
     //     width: vw(9)
     //     height: vh(5)
     // }
+
+    Canbus {
+        onUpdate: {
+            const autopilotState = sig('DAS_autopilotState')
+            if (autopilotState !== 3 /* ACTIVE_NOMINAL */) {
+                const ticks = debounce(() => sig('VCLEFT_swcRightScrollTicks'), 500)
+                if (ticks > 0) {
+                    const next = currentOverlay < overlays.length - 1 ? currentOverlay + 1 : 0
+                    overlay.source = overlays[next]
+                }
+                else if (ticks < 0) {
+                    const prev = currentOverlay > 0 ? currentOverlay - 1 : overlays.length - 1
+                    overlay.source = overlays[prev]
+                }
+            }
+        }
+    }
 
 }
