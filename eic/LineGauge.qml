@@ -85,7 +85,7 @@ Item {
         id: label
         anchors {
             top: parent.top
-            topMargin: vh(1)
+            topMargin: vh(2)
             left: parent.left
             leftMargin: valueBar.width - width
         }
