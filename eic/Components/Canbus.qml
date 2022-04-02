@@ -16,13 +16,13 @@ Timer {
     function debounce(fn, delay) {
       const now = Date.now()
       if (now - lastTriggered > delay) {
+        lastTriggered = now
         return fn()
       }
-      return 0 
-    } 
+      return 0
+    }
 
-    onTriggered: { 
-      lastTriggered = Date.now()
+    onTriggered: {
       update()
     }
 }
