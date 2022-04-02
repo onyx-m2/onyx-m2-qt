@@ -51,7 +51,7 @@ Item {
                     tripStartDischarge = sig('BMS_kwhDischargeTotal')
                     tripStartCharge = sig('BMS_kwhChargeTotal')
                     tripStartOdometer = sig('UI_odometer')
-                    tripStartTime = sig('UTC_unixTime')
+                    tripStartTime = Date.now() / 1000
                     if (tripStartDischarge && tripStartCharge && tripStartOdometer && tripStartTime) {
                         tripInProgress = true
                     }
