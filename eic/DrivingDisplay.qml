@@ -5,10 +5,11 @@ import QtQuick.Layouts 1.15
 import Components 1.0
 
 Item {
+    property int currentOverlay: 0
     property var overlays: [
         'TripOverlay.qml',
-        'TirePressureOverlay.qml',
-        'TemperaturesOverlay.qml'
+        'TemperatureOverlay.qml',
+        'TirePressureOverlay.qml'
     ]
 
 
@@ -33,8 +34,8 @@ Item {
         //height: vh(25)
     }
 
-    TripSection {
-        id: secondarySection
+    Loader {
+        id: overlay
         anchors {
             top: indicatorBar.bottom
             topMargin: rowSpacing
@@ -42,8 +43,20 @@ Item {
             bottomMargin: rowSpacing
         }
         width: vw(100)
-        // height: vh(15)
+        source: overlays[0]
     }
+
+    // TripSection {
+    //     id: secondarySection
+    //     anchors {
+    //         top: indicatorBar.bottom
+    //         topMargin: rowSpacing
+    //         bottom: powerSection.top
+    //         bottomMargin: rowSpacing
+    //     }
+    //     width: vw(100)
+    //     // height: vh(15)
+    // }
 
     // The power section shows power/regen for all motors, and is second in size to
     // the primary cluster
@@ -67,18 +80,23 @@ Item {
     //     height: vh(5)
     // }
 
+    // need a really short interval here because we're polling
+    // for scroll ticks and we'll just not see them if the interval
+    // is too long; we'll still debounce to avoid cycling more than
+    // one overlay per "flip" of the wheel
     Canbus {
+        interval: 10
         onUpdate: {
             const autopilotState = sig('DAS_autopilotState')
             if (autopilotState !== 3 /* ACTIVE_NOMINAL */) {
                 const ticks = debounce(() => sig('VCLEFT_swcRightScrollTicks'), 500)
                 if (ticks > 0) {
-                    const next = currentOverlay < overlays.length - 1 ? currentOverlay + 1 : 0
-                    overlay.source = overlays[next]
+                    currentOverlay = currentOverlay < overlays.length - 1 ? currentOverlay + 1 : 0
+                    overlay.source = overlays[currentOverlay]
                 }
                 else if (ticks < 0) {
-                    const prev = currentOverlay > 0 ? currentOverlay - 1 : overlays.length - 1
-                    overlay.source = overlays[prev]
+                    currentOverlay = currentOverlay > 0 ? currentOverlay - 1 : overlays.length - 1
+                    overlay.source = overlays[currentOverlay]
                 }
             }
         }

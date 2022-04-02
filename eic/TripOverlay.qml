@@ -92,7 +92,7 @@ Item {
                 tripConsumption = Math.round(tripEnergy * 1000 / tripDistance)
             }
 
-            tripDuration = sig('UTC_unixTime') - tripStartTime
+            tripDuration = Date.now() / 1000 - tripStartTime
         }
     }
 }
