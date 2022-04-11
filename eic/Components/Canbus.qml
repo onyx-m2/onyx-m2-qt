@@ -13,15 +13,6 @@ Timer {
       return canbus.signal(mnemonic)
     }
 
-    function debounce(fn, delay) {
-      const now = Date.now()
-      if (now - lastTriggered > delay) {
-        lastTriggered = now
-        return fn()
-      }
-      return 0
-    }
-
     onTriggered: {
       update()
     }

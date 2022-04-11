@@ -11,6 +11,7 @@ Item {
         'TemperatureOverlay.qml',
         'TirePressureOverlay.qml'
     ]
+    property int scrollWheelIgnoreCycles: 0
 
 
     // The indicator bar is really thin and displays at the top of the screen
@@ -87,17 +88,25 @@ Item {
     Canbus {
         interval: 10
         onUpdate: {
-            const autopilotState = sig('DAS_autopilotState')
-            if (autopilotState !== 3 /* ACTIVE_NOMINAL */) {
-                const ticks = debounce(() => sig('VCLEFT_swcRightScrollTicks'), 500)
-                if (ticks > 0) {
-                    currentOverlay = currentOverlay < overlays.length - 1 ? currentOverlay + 1 : 0
-                    overlay.source = overlays[currentOverlay]
+            if (scrollWheelIgnoreCycles == 0) {
+                const autopilotState = sig('DAS_autopilotState')
+                if (autopilotState !== 3 /* ACTIVE_NOMINAL */) {
+                    const ticks = sig('VCLEFT_swcRightScrollTicks')
+                    if (ticks > 0) {
+                        currentOverlay = currentOverlay < overlays.length - 1 ? currentOverlay + 1 : 0
+                        overlay.source = overlays[currentOverlay]
+                        scrollWheelIgnoreCycles = 50
+                    }
+                    else
+                    if (ticks < 0) {
+                        currentOverlay = currentOverlay > 0 ? currentOverlay - 1 : overlays.length - 1
+                        overlay.source = overlays[currentOverlay]
+                        scrollWheelIgnoreCycles = 50
+                    }
                 }
-                else if (ticks < 0) {
-                    currentOverlay = currentOverlay > 0 ? currentOverlay - 1 : overlays.length - 1
-                    overlay.source = overlays[currentOverlay]
-                }
+            }
+            else {
+                scrollWheelIgnoreCycles--
             }
         }
     }
