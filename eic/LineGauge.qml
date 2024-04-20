@@ -11,46 +11,46 @@ Item {
     states: [
         State {
             name: 'reverse'
-            AnchorChanges {
-                target: label
-                anchors.left: undefined
-                anchors.right: parent.right
-            }
-            PropertyChanges {
-                target: label
-                anchors.leftMargin: undefined
-                anchors.rightMargin: valueBar.width - width
-                horizontalAlignment: Text.AlignLeft
-            }
+            // AnchorChanges {
+            //     target: label
+            //     anchors.left: undefined
+            //     anchors.right: parent.right
+            // }
+            // PropertyChanges {
+            //     target: label
+            //     anchors.leftMargin: undefined
+            //     anchors.rightMargin: valueBar.width - width
+            //     horizontalAlignment: Text.AlignLeft
+            // }
             AnchorChanges {
                 target: valueBar
                 anchors.left: undefined
                 anchors.right: parent.right
             }
         },
-        State {
-            name: 'labelAbove'
-            AnchorChanges {
-                target: label
-                anchors.top: undefined
-                anchors.bottom: parent.top
-            }
-        },
+        // State {
+        //     name: 'labelAbove'
+        //     AnchorChanges {
+        //         target: label
+        //         anchors.top: undefined
+        //         anchors.bottom: parent.top
+        //     }
+        // },
         State {
             name: 'reverseLabelAbove'
-            AnchorChanges {
-                target: label
-                anchors.top: undefined
-                anchors.bottom: parent.top
-                anchors.left: undefined
-                anchors.right: parent.right
-            }
-            PropertyChanges {
-                target: label
-                anchors.leftMargin: undefined
-                anchors.rightMargin: valueBar.width - width
-                horizontalAlignment: Text.AlignLeft
-            }
+            // AnchorChanges {
+            //     target: label
+            //     anchors.top: undefined
+            //     anchors.bottom: parent.top
+            //     anchors.left: undefined
+            //     anchors.right: parent.right
+            // }
+            // PropertyChanges {
+            //     target: label
+            //     anchors.leftMargin: undefined
+            //     anchors.rightMargin: valueBar.width - width
+            //     horizontalAlignment: Text.AlignLeft
+            // }
             AnchorChanges {
                 target: valueBar
                 anchors.left: undefined
@@ -69,8 +69,10 @@ Item {
     Rectangle {
         id: valueBar
         width: parent.width * Math.min(value / maxValue, maxValue)
-        height: parent.height
+        y: -(parent.height / 3)
+        height: parent.height * 1.2
         color: gauge.color
+        radius: vh(1)
         visible: maxValue > 0
 
         Behavior on width {
@@ -81,20 +83,20 @@ Item {
         }
     }
 
-    Text {
-        id: label
-        anchors {
-            top: parent.top
-            topMargin: vh(2)
-            left: parent.left
-            leftMargin: valueBar.width - width
-        }
-        text: value
-        horizontalAlignment: Text.AlignRight
-        color: gauge.color
-        visible: value != 0
-        font.pixelSize: vh(6)
-    }
+    // Text {
+    //     id: label
+    //     anchors {
+    //         top: parent.top
+    //         topMargin: vh(2)
+    //         left: parent.left
+    //         leftMargin: valueBar.width - width
+    //     }
+    //     text: value
+    //     horizontalAlignment: Text.AlignRight
+    //     color: gauge.color
+    //     visible: value != 0
+    //     font.pixelSize: vh(6)
+    // }
 
     // Rectangle {
     //     anchors {

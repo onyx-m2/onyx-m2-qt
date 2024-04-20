@@ -11,10 +11,11 @@ Item {
     property int drivePowerLimit: 0
     property int regenPowerLimit: 0
 
-    readonly property int gagueOffset: lineWidth
+    readonly property int gagueOffset: 0//lineWidth
+    readonly property int gagueLineHeight: lineWidth * 2
 
     width: parent.width
-    height: lineWidth * 3//childrenRect.height//lineWidth * 3
+    height: lineWidth * 3
 
     LineGauge {
         id: frontRegenIndicator
@@ -24,7 +25,7 @@ Item {
             right: parent.horizontalCenter
             rightMargin: gagueOffset
         }
-        height: lineWidth
+        height: gagueLineHeight
         value: frontRegen
         color: Colors.green
         maxValue: regenMaxPower
@@ -33,12 +34,14 @@ Item {
 
     Rectangle {
         anchors {
-            top: frontRegenIndicator.bottom
+            verticalCenter: parent.verticalCenter
+            //top: frontRegenIndicator.bottom
             left: parent.left
             right: parent.horizontalCenter
             rightMargin: gagueOffset
-            bottom: rearRegenIndicator.top
+            //bottom: rearRegenIndicator.top
         }
+        height: lineWidth
         color: Colors.grey
     }
 
@@ -50,23 +53,23 @@ Item {
             rightMargin: gagueOffset
             bottom: parent.bottom
         }
-        height: lineWidth
+        height: gagueLineHeight
         value: rearRegen
         color: Colors.green
         maxValue: regenMaxPower
         state: 'reverse'
     }
 
-    Text {
-        anchors {
-            left: parent.left
-            bottom: rearRegenIndicator.top
-            bottomMargin: vh(1)
-        }
-        color: Colors.grey
-        text: regenPowerLimit
-        font.pixelSize: vh(6)
-    }
+    // Text {
+    //     anchors {
+    //         left: parent.left
+    //         bottom: rearRegenIndicator.top
+    //         bottomMargin: vh(1)
+    //     }
+    //     color: Colors.grey
+    //     text: regenPowerLimit
+    //     font.pixelSize: vh(6)
+    // }
 
     LineGauge {
         id: frontPowerIndicator
@@ -76,7 +79,7 @@ Item {
             leftMargin: gagueOffset
             right: parent.right
         }
-        height: lineWidth
+        height: gagueLineHeight
         value: frontPower
         maxValue: driveMaxPower
         state: 'labelAbove'
@@ -84,12 +87,14 @@ Item {
 
     Rectangle {
         anchors {
-            top: frontPowerIndicator.bottom
+            verticalCenter: parent.verticalCenter
+            //top: frontPowerIndicator.bottom
             left: parent.horizontalCenter
             leftMargin: gagueOffset
             right: parent.right
-            bottom: rearPowerIndicator.top
+            //bottom: rearPowerIndicator.top
         }
+        height: lineWidth
         color: Colors.grey
     }
 
@@ -101,21 +106,21 @@ Item {
             right: parent.right
             bottom: parent.bottom
         }
-        height: lineWidth
+        height: gagueLineHeight
         value:  rearPower
         maxValue: driveMaxPower
     }
 
-    Text {
-        anchors {
-            right: parent.right
-            bottom: rearPowerIndicator.top
-            bottomMargin: vh(1)
-        }
-        color: Colors.grey
-        text: drivePowerLimit
-        font.pixelSize: vh(6)
-    }
+    // Text {
+    //     anchors {
+    //         right: parent.right
+    //         bottom: rearPowerIndicator.top
+    //         bottomMargin: vh(1)
+    //     }
+    //     color: Colors.grey
+    //     text: drivePowerLimit
+    //     font.pixelSize: vh(6)
+    // }
 
     // Rectangle {
     //     anchors {

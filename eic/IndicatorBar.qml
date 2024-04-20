@@ -45,9 +45,9 @@ Item {
         id: laneIndicator
         anchors {
             left: leftStopIndicator.right
-            leftMargin: lineWidth * 2
+            leftMargin: 80//lineWidth * 2
             right: rightStopIndicator.left
-            rightMargin: lineWidth * 2
+            rightMargin: 80//lineWidth * 2
         }
         height: parent.height / 2
         radius: indicatorRadius

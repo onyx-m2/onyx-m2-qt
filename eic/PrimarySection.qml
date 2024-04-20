@@ -16,25 +16,25 @@ Item {
     readonly property int indicatorWidth: vw(20)
     readonly property int smallIndicatorWidth: vw(12)
 
-    // SpeedLimitIndicator {
-    //     id: speedLimitIndicator
-    //     anchors {
-    //         //left: parent.left
-    //         //leftMargin: rowSpacing
-    //         horizontalCenter: parent.horizontalCenter
-    //         //verticalCenter: parent.verticalCenter
-    //         top: parent.top
-    //     }
-    //     width: vw(12)
-    //     height: vh(7)
-    // }
+    SpeedLimitIndicator {
+        id: speedLimitIndicator
+        anchors {
+            right: parent.right
+            //leftMargin: rowSpacing
+            //horizontalCenter: parent.horizontalCenter
+            //verticalCenter: parent.verticalCenter
+            top: parent.top
+        }
+        width: vw(12)
+        height: vh(26)
+    }
 
     SpeedIndicator {
         anchors {
-            //left: parent.left
-            //leftMargin: parent.width / 8
+            left: parent.left
+            //leftMargin: parent.width / 10
             //right: parent.horizontalCenter
-            horizontalCenter: parent.horizontalCenter
+            //horizontalCenter: parent.horizontalCenter
             verticalCenter: parent.verticalCenter
         }
         //width: vw(50)

@@ -81,7 +81,7 @@ Item {
             soc = sig('UI_usableSOC')
 
             time = new Date().toLocaleTimeString([], {
-                hour: '2-digit',
+                hour: 'numeric',
                 minute: '2-digit'
             }).toLocaleLowerCase()
 

@@ -21,61 +21,45 @@ Item {
         var minutes = Math.floor(duration / 60) % 60
         var hours =  Math.floor(duration / 3600)
         if (hours == 0) {
-            return `${minutes}:${seconds}`
+            return `${minutes}`
         }
-        return `${hours}:${minutes}:${seconds}`
+        return `${hours}:${minutes}`
     }
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.left
-            right: parent.horizontalCenter
-            rightMargin: parent.width / 10
-            bottom: parent.verticalCenter
-            bottomMargin: parent.height / 20
-        }
-        height: vh(6)
-        caption: "Distance"
-        value: tripDistance.toFixed(1)
-    }
+    RowLayout {
+        anchors.fill: parent
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.left
-            right: parent.horizontalCenter
-            rightMargin: parent.width / 10
-            top: parent.verticalCenter
-            topMargin: parent.height / 20
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Trip"
+            value: tripDistance.toFixed(0)
+            suffix: 'KM'
         }
-        height: vh(6)
-        caption: "Range"
-        value: expectedRange
-    }
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.horizontalCenter
-            leftMargin: parent.width / 10
-            right: parent.right
-            bottom: parent.verticalCenter
-            bottomMargin: parent.height / 20
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Range"
+            value: expectedRange
+            suffix: 'KM'
         }
-        height: vh(6)
-        caption: "Energy"
-        value: tripConsumption || ratedConsumption
-    }
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.horizontalCenter
-            leftMargin: parent.width / 10
-            right: parent.right
-            top: parent.verticalCenter
-            topMargin: parent.height / 20
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Energy"
+            value: tripConsumption || ratedConsumption
+            suffix: 'WH/KM'
         }
-        height: vh(6)
-        caption: "Duration"
-        value: formatDuration(tripDuration)
+
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Duration"
+            value: formatDuration(tripDuration)
+            suffix: tripDuration > 3600 ? 'HR' : 'MIN'
+        }
     }
 
     Canbus {

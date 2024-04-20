@@ -9,56 +9,40 @@ Item {
     property real frontTemp: 0
     property real rearTemp: 0
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.left
-            right: parent.horizontalCenter
-            rightMargin: parent.width / 10
-            bottom: parent.verticalCenter
-            bottomMargin: parent.height / 20
-        }
-        height: vh(6)
-        caption: "Front Temp"
-        value: frontTemp.toFixed(0)
-    }
+    RowLayout {
+        anchors.fill: parent
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.left
-            right: parent.horizontalCenter
-            rightMargin: parent.width / 10
-            top: parent.verticalCenter
-            topMargin: parent.height / 20
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Front\nInverter"
+            value: frontTemp.toFixed(0)
+            suffix: '°c'
         }
-        height: vh(6)
-        caption: "Rear Temp"
-        value: rearTemp.toFixed(0)
-    }
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.horizontalCenter
-            leftMargin: parent.width / 10
-            right: parent.right
-            bottom: parent.verticalCenter
-            bottomMargin: parent.height / 20
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Rear\nInverter"
+            value: rearTemp.toFixed(0)
+            suffix: '°c'
         }
-        height: vh(6)
-        caption: "Battery Temp"
-        value: battTemp.toFixed(0)
-    }
 
-    LongCaptionTextGauge {
-        anchors {
-            left: parent.horizontalCenter
-            leftMargin: parent.width / 10
-            right: parent.right
-            top: parent.verticalCenter
-            topMargin: parent.height / 20
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Battery\nTemp"
+            value: battTemp.toFixed(0)
+            suffix: '°c'
         }
-        height: vh(6)
-        caption: "Brake Temp"
-        value: brakeTemp.toFixed(0)
+
+        LongCaptionTextGauge {
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            caption: "Brakes\nTemp"
+            value: brakeTemp.toFixed(0)
+            suffix: '°c'
+        }
     }
 
     Canbus {

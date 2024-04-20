@@ -50,8 +50,8 @@ Item {
         id: valueText
         anchors {
             top: parent.top
-            topMargin: vh(2.5)
-            horizontalCenter: parent.horizontalCenter
+            //topMargin: vh(2.5)
+            //horizontalCenter: parent.horizontalCenter
         }
         horizontalAlignment: Text.AlignHCenter
         color: (value != 0) ? indicator.color : Colors.grey
@@ -64,8 +64,9 @@ Item {
         id: unitsText
         anchors {
             //right: valueText.right
-            horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
+            // horizontalCenter: parent.horizontalCenter
+            top: valueText.bottom
+            //bottomMargin: vh(1)
             //leftMargin: parent.height * 0.1
             //bottom: valueText.bottom
             //bottomMargin: vh(2)

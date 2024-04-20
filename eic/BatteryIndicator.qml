@@ -48,22 +48,14 @@ Item {
     Text {
         anchors {
             right: backing.left
+            rightMargin: 5
             bottom: backing.bottom
         }
-        text: `${soc}% `
+        text: soc.toFixed() + '% '
         color: gaugeColor
         font.pixelSize: backing.height * 1.1
-        font.weight: Font.Medium
+        font.weight: Font.Bold
     }
-
-    // CaptionTextGauge {
-    //     anchors {
-    //         fill: parent
-    //     }
-    //     value: soc
-    //     caption: 'SOC'
-    //     color: gaugeColor
-    // }
 
     Canbus {
         onUpdate: {

@@ -22,20 +22,41 @@ Item {
 
     Loader {
         id: display
+        focus: true
         anchors {
             top: parent.top
             left: parent.left
             right: parent.right
+            bottom: parent.verticalCenter
         }
-        //width: vw(100)
-        height: vh(50)
     }
+    Rectangle {
+        anchors {
+            top: display.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        color: 'darkgrey'
+    }
+
+    // Timer {
+    //     interval: 2000; running: true; repeat: false
+    //     onTriggered: Qt.quit()
+    // }
 
     Canbus {
         onUpdate: {
+            const leftButtonPressed = sig('VCLEFT_swcLeftPressed')
+            const rightButtonPressed = sig('VCLEFT_swcRightPressed')
+            if (leftButtonPressed === 2 /* BUTTON_ON */ && rightButtonPressed === 2 /* BUTTON_ON */) {
+                Qt.callLater(Qt.quit)
+            }
+
             const displayOn = sig('UI_displayOn')
             const gear = sig('DI_gear')
             const state = sig('BMS_state')
+            const trackMode = sig('DI_trackModeState')
             if (!displayOn) {
                 display.source = ''
             }
@@ -45,6 +66,9 @@ Item {
             else if (gear === 0 || gear === 7 /* SNA */) {
                 tripInProgress = false
                 display.source = 'IdleDisplay.qml'
+            }
+            else if (trackMode === 2 /* ON */) {
+                display.source = 'TrackDisplay.qml'
             }
             else {
                 if (!tripInProgress) {

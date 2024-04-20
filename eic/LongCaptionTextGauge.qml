@@ -7,39 +7,55 @@ Item {
 
     property string caption
     property string value
+    property string suffix
     property color color: Colors.white
 
-
-    Text {
-        id: valueText
-        anchors {
-            top: parent.top
-            left: parent.right
-            leftMargin: -parent.width / 3
-            //top: captionText.bottom
-            //horizontalCenter: parent.horizontalCenter
-            //topMargin: vh(2)
-
-        }
-        //horizontalAlignment: Text.AlignHCenter
-        color: Colors.white
-        font.pixelSize: gauge.height
-        //font.weight: Font.Light
-        text: value
-    }
+    //width: childrenRect.width
+    //height: childrenRect.height
+    //anchors.fill: parent
 
     Text {
         id: captionText
         anchors {
             top: parent.top
-            right: valueText.left
-            rightMargin: parent.width / 20
+            horizontalCenter: parent.horizontalCenter
         }
-        //width: parent.width
-        horizontalAlignment: Text.AlignRight
+        horizontalAlignment: Text.AlignHCenter
         color: Colors.grey
-        font.pixelSize: gauge.height
+        font.pixelSize: vh(5)
         //font.weight: Font.Medium
         text: caption
     }
+
+    Text {
+        id: valueText
+        anchors {
+            top: captionText.bottom
+            topMargin: vh(3)
+            horizontalCenter: parent.horizontalCenter
+        }
+        //width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        color: Colors.white
+        font.pixelSize: vh(7)
+        //font.weight: Font.Light
+        text: value
+    }
+
+    Text {
+        id: suffixText
+        anchors {
+            top: valueText.bottom
+            topMargin: vh(2)
+            horizontalCenter: parent.horizontalCenter
+            //leftMargin: parent.width / 50
+        }
+        //width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        color: Colors.grey
+        font.pixelSize: vh(4)
+        //font.weight: Font.Medium
+        text: suffix
+    }
+
 }
