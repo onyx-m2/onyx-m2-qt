@@ -10,7 +10,8 @@ Item {
     property string units
     property color color: Colors.white
 
-    property int unitsFontSize: height * 0.3
+    property int fontSize: height * 0.80
+    property int unitsFontSize: height * 0.14
 
     // Rectangle {
     //     anchors {
@@ -59,17 +60,19 @@ Item {
         text: value
     }
 
-    // Text {
-    //     id: unitsText
-    //     anchors {
-    //         right: valueText.right
-    //         bottom: valueText.bottom
-    //         //leftMargin: parent.height * 0.1
-    //         //bottom: valueText.bottom
-    //         //bottomMargin: parent.height * 0.1
-    //         //topMargin: -parent.height * 0.1
-    //         //left: parent.left
-    //     }
+    Text {
+        id: unitsText
+        anchors {
+            //right: valueText.right
+            //horizontalCenter: parent.horizontalCenter
+            top: valueText.bottom
+            //bottomMargin: vh(1)
+            //leftMargin: parent.height * 0.1
+            //bottom: valueText.bottom
+            //bottomMargin: vh(2)
+            //topMargin: -parent.height * 0.1
+            //left: parent.left
+        }
     //     // anchors {
     //     //     left: valueText.right
     //     //     leftMargin: parent.height * 0.1
