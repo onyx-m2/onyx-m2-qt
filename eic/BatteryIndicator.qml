@@ -4,7 +4,6 @@ import Components 1.0
 
 Item {
     property int soc: 0
-    property int chargingLimit: 90
     property color gaugeColor: Colors.white
 
     CaptionTextGauge {
@@ -30,15 +29,6 @@ Item {
             }
             else {
                 gaugeColor = Colors.white
-            }
-
-            // calculate the charging limit to display as the max value of the battery
-            // gauge
-            const nominalFullPackEnergy = sig('BMS_nominalFullPackEnergy')
-            const nominalEnergyRemaining = sig('BMS_nominalEnergyRemaining')
-            const energyToChargeComplete = sig('BMS_energyToChargeComplete')
-            if (nominalFullPackEnergy !== 0) {
-                chargingLimit = (energyToChargeComplete + nominalEnergyRemaining) / nominalFullPackEnergy * 100
             }
         }
     }
