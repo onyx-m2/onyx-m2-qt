@@ -22,8 +22,23 @@ Item {
 
     Loader {
         id: display
-        width: vw(100)
-        height: vh(50)
+        focus: true
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            bottom: parent.verticalCenter
+            bottomMargin: -100
+        }
+    }
+    Rectangle {
+        anchors {
+            top: display.bottom
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        color: 'black'
     }
 
     Canbus {
@@ -31,10 +46,18 @@ Item {
             const displayOn = sig('UI_displayOn')
             const gear = sig('DI_gear')
             const state = sig('BMS_state')
+            const trackMode = sig('DI_trackModeState')
+            const diagMode = sig('UI_childDoorLockOn') // use "child lock" to show diags
             if (!displayOn) {
                 display.source = ''
             }
+            else if (diagMode === 1) {
+                display.source = 'DiagDisplay.qml'
+            }
             else if (state === 3 /* CHARGE */) {
+                display.source = 'ChargingDisplay.qml'
+            }
+            else if (trackMode === 2 /* ON */) {
                 display.source = 'ChargingDisplay.qml'
             }
             else if (gear === 0 || gear === 7 /* SNA */) {
