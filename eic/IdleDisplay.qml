@@ -2,55 +2,51 @@ import QtQuick 2.15
 import Components 1.0
 
 Item {
-    property string time: ''
+    property string clock: ''
     property real odometer: 0
-    property int soc: 0
-    property int temp: 0
     property int capacity: 0
-    readonly property int indicatorWidth: vw(35)
-    readonly property int indicatorHeight: vh(18)
+
+    BatteryIndicator {
+        anchors {
+            top: parent.top
+            right: parent.right
+        }
+        width: vw(7)
+        height: vh(5)
+    }
 
     Text {
         anchors {
             left: parent.left
             bottom : parent.bottom
+            bottomMargin: vh(4)
         }
-        text: time
+        text: clock
         color: Colors.white
         font.pixelSize: vh(6)
     }
 
     Text {
-        id: socText
+        id: odometerText
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom : parent.bottom
+            bottomMargin: vh(4)
         }
         text: `${odometer.toFixed().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")} km`//`${soc} %`
         color: Colors.white
         font.pixelSize: vh(6)
-}
+    }
 
     Text {
         anchors {
             right: parent.right
             bottom : parent.bottom
+            bottomMargin: vh(4)
         }
-        text: `${capacity} %` //${temp} °c`
+        text: `${capacity} %`
         color: Colors.white
         font.pixelSize: vh(6)
-}
-
-    Rectangle {
-        id: separator
-        anchors {
-            left: parent.left
-            right: parent.right
-            top: socText.top
-            topMargin: -rowSpacing
-        }
-        color: Colors.black
-        height: vh(0.1)
     }
 
     Item {
@@ -59,18 +55,27 @@ Item {
             left: parent.left
             right: parent.right
             top: parent.top
-            bottom: separator.top
+            bottom: odometerText.top
         }
 
         Image {
             id: logo
             anchors {
-                horizontalCenter: parent.horizontalCenter
-                verticalCenter: parent.verticalCenter
+                centerIn: parent
             }
-            sourceSize.height: parent.height
+            sourceSize.width: parent.width
             fillMode: Image.PreserveAspectFit
             source: 'assets/silhouette.png'
+        }
+    }
+
+    Timer {
+        triggeredOnStart: true
+        interval: 1000
+        running: true 
+        repeat: true
+        onTriggered: {
+            clock = (new Date()).toLocaleTimeString(Qt.locale('en_US'), Locale.ShortFormat).toLocaleLowerCase()
         }
     }
 
@@ -78,12 +83,6 @@ Item {
         interval: 1000
         onUpdate: {
             odometer = sig('UI_odometer')
-            soc = sig('UI_usableSOC')
-
-            time = new Date().toLocaleTimeString([], {
-                hour: '2-digit',
-                minute: '2-digit'
-            }).toLocaleLowerCase()
 
             // battery capacity (i.e. opposite of "degradation")
             const nominalFullPack = sig('BMS_nominalFullPackEnergy')
