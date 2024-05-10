@@ -2,7 +2,12 @@ import QtQuick 2.15
 import Components 1.0
 
 Item {
-    property string clock: ''
+    //property int hour: 0
+    //property int minute: 0
+    //property string ampm: ''
+    //readonly property int utcOffset: -4
+    property string clock
+
     property real odometer: 0
     property int capacity: 0
 
@@ -21,6 +26,7 @@ Item {
             bottom : parent.bottom
             bottomMargin: vh(4)
         }
+        //text: hour + ':' + minute.toString().padStart(2, '0') + ' ' + ampm
         text: clock
         color: Colors.white
         font.pixelSize: vh(6)
@@ -62,6 +68,8 @@ Item {
             id: logo
             anchors {
                 centerIn: parent
+                //horizontalCenter: parent.horizontalCenter
+                //verticalCenter: parent.verticalCenter
             }
             sourceSize.width: parent.width
             fillMode: Image.PreserveAspectFit
@@ -83,6 +91,20 @@ Item {
         interval: 1000
         onUpdate: {
             odometer = sig('UI_odometer')
+
+            // hour = sig('UTC_hour') + utcOffset
+            // ampm = (hour < 12) ? 'am' : 'pm'
+            // if (hour > 12) {
+            //     hour -= 12
+            // } else if (hour === 0) {
+            //     hour = 12
+            // }
+            // minute = sig('UTC_minutes')
+
+            // time = new Date().toLocaleTimeString([], {
+            //     hour: 'numeric',
+            //     minute: '2-digit'
+            // }).toLocaleLowerCase()
 
             // battery capacity (i.e. opposite of "degradation")
             const nominalFullPack = sig('BMS_nominalFullPackEnergy')

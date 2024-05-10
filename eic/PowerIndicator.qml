@@ -11,7 +11,7 @@ Item {
             fill: parent
         }
         value: power
-        units: 'kw'
+        units: 'KW'
         color: gaugeColor
     }
 

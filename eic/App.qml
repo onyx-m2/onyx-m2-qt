@@ -41,8 +41,19 @@ Item {
         color: 'black'
     }
 
+    // Timer {
+    //     interval: 2000; running: true; repeat: false
+    //     onTriggered: Qt.quit()
+    // }
+
     Canbus {
         onUpdate: {
+            const leftButtonPressed = sig('VCLEFT_swcLeftPressed')
+            const rightButtonPressed = sig('VCLEFT_swcRightPressed')
+            if (leftButtonPressed === 2 /* BUTTON_ON */ && rightButtonPressed === 2 /* BUTTON_ON */) {
+                Qt.callLater(Qt.quit)
+            }
+
             const displayOn = sig('UI_displayOn')
             const gear = sig('DI_gear')
             const state = sig('BMS_state')
@@ -54,23 +65,25 @@ Item {
             else if (diagMode === 1) {
                 display.source = 'DiagDisplay.qml'
             }
-            else if (state === 3 /* CHARGE */) {
-                display.source = 'ChargingDisplay.qml'
-            }
-            else if (trackMode === 2 /* ON */) {
-                display.source = 'ChargingDisplay.qml'
-            }
+            // else if (state === 3 /* CHARGE */) {
+            //     display.source = 'ChargingDisplay.qml'
+            // }
             else if (gear === 0 || gear === 7 /* SNA */) {
                 tripInProgress = false
                 display.source = 'IdleDisplay.qml'
             }
+            else if (trackMode === 2 /* ON */) {
+                display.source = 'TrackDisplay.qml'
+            }
             else {
                 if (!tripInProgress) {
-                    tripInProgress = true
                     tripStartDischarge = sig('BMS_kwhDischargeTotal')
                     tripStartCharge = sig('BMS_kwhChargeTotal')
                     tripStartOdometer = sig('UI_odometer')
-                    tripStartTime = sig('UTC_unixTime')
+                    tripStartTime = Date.now() / 1000
+                    if (tripStartDischarge && tripStartCharge && tripStartOdometer && tripStartTime) {
+                        tripInProgress = true
+                    }
                 }
                 display.source = 'DrivingDisplay.qml'
             }

@@ -59,10 +59,12 @@ Item {
                 sig('DI_brakeRRTemp')
             ) / 4
 
-            frontTemp = (
-                sig('DI_frontInverterT') +
-                sig('DI_frontStatorT')
-            ) / 2
+            frontTemp = sig('VCFRONT_coolantFlowPTActual')//sig('BMS_packVoltage') * sig('BMS_packCurrent')
+
+            // frontTemp = (
+            //     sig('DI_frontInverterT') +
+            //     sig('DI_frontStatorT')
+            // ) / 2
 
             rearTemp = (
                 sig('DI_inverterT') +

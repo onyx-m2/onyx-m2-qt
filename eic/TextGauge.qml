@@ -6,7 +6,7 @@ Item {
     id: indicator
     //border.color: 'blue'
 
-    property real value
+    property string value
     property string units
     property color color: Colors.white
 
@@ -50,12 +50,12 @@ Item {
         id: valueText
         anchors {
             top: parent.top
-            topMargin: vh(-0.6)
-            horizontalCenter: parent.horizontalCenter
+            //topMargin: vh(2.5)
+            //horizontalCenter: parent.horizontalCenter
         }
         horizontalAlignment: Text.AlignHCenter
-        color: (value !== 0) ? indicator.color : Colors.grey
-        font.pixelSize: parent.height * 1.2
+        color: (value != 0) ? indicator.color : Colors.grey
+        font.pixelSize: fontSize
         font.weight: Font.Thin
         text: value
     }
@@ -87,13 +87,13 @@ Item {
     //     //     topMargin: -parent.height * 0.1
     //     //     //left: parent.left
     //     // }
-    //     color: (value !== 0) ? indicator.color : Colors.grey
-    //     font.pixelSize: unitsFontSize
-    //     text: units
+        color: /*(value !== 0) ? indicator.color : */Colors.grey
+        font.pixelSize: unitsFontSize
+        text: units
     //     //rotation: 270
     //     transform: [
     //         Rotation { origin.x: unitsText.width; origin.y: 0; angle: -90},
     //         Translate { y: -unitsText.width }
     //     ]
-    // }
+    }
 }

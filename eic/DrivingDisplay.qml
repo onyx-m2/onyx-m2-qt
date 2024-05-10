@@ -5,34 +5,89 @@ import QtQuick.Layouts 1.15
 import Components 1.0
 
 Item {
+    property int currentOverlay: 0
+    property var overlays: [
+        'TripOverlay.qml',
+        'PowerOverlay.qml',
+        'TemperatureOverlay.qml',
+        'TirePressureOverlay.qml',
+    ]
+    property int scrollWheelIgnoreCycles: 0
+
+    property int gear: 7 // SNA
+    property int autopilotState: 0
+    property int handsOnState: 0
+
+    property int breakLightStatus: 0
+    property int leftTurnLightStatus: 0
+    property int rightTurnLightStatus: 0
+
+    readonly property int indicatorWidth: vw(10)
+    readonly property int indicatorHeight: vh(1.2)
+    readonly property int indicatorRadius: 0
+
+    anchors.centerIn: parent
 
     // The indicator bar is really thin and displays at the top of the screen
-    IndicatorBar {
-        id: indicatorBar
-        width: vw(100)
-        height: lineWidth
-    }
+    // IndicatorBar {
+    //     id: indicatorBar
+    //     width: vw(100)
+    //     height: lineWidth * 2
+    // }
 
     // The primary section holds the speed and battery gauges, as well as the PRND
     // indicator, and is the larger cluster
-    PrimarySection {
-        id: primarySection
+    // PrimarySection {
+    //     id: primarySection
+    //     anchors {
+    //         top: indicatorBar.bottom
+    //         topMargin: rowSpacing
+    //         bottom: powerSection.top
+    //         bottomMargin: rowSpacing
+    //     }
+    //     width: vw(100)
+    //     //height: vh(25)
+    // }
+
+    Item {
+        id: gearIndicator
         anchors {
-            top: indicatorBar.bottom
-            topMargin: rowSpacing
+            top: parent.top
+            left: parent.left
         }
-        width: vw(100)
-        height: vh(18)
+
+        RowLayout {
+            Text {
+                text: 'P'
+                color: gear === 1 ? Colors.white : Colors.grey
+                font.weight: gear === 1 ? Font.Bold : Font.Normal
+            }
+            Text {
+                text: 'R'
+                color: gear === 2 ? Colors.white : Colors.grey
+                font.weight: gear === 2 ? Font.Bold : Font.Normal
+            }
+            Text {
+                text: 'N'
+                color: gear === 3 ? Colors.white : Colors.grey
+                font.weight: gear === 3 ? Font.Bold : Font.Normal
+            }
+            Text {
+                text: 'D'
+                color: gear === 4 ? Colors.white : Colors.grey
+                font.weight: gear === 4 ? Font.Bold : Font.Normal
+            }
+        }
     }
 
-    SecondarySection {
-        id: secondarySection
+    BatteryIndicator {
+        id: batteryIndicator
         anchors {
-            top: primarySection.bottom
-            topMargin: rowSpacing
+            top: parent.top
+            right: parent.right
         }
-        width: vw(100)
-        height: vh(15)
+        width: vw(7)
+        height: vh(5)
     }
 
     // The power section shows power/regen for all motors, and is second in size to
@@ -40,7 +95,9 @@ Item {
     PowerSection {
         id: powerSection
         anchors {
-            bottom: parent.bottom
+            top: batteryIndicator.bottom
+            topMargin: rowSpacing / 2
+            //bottomMargin: batteryIndicator.height + rowSpacing
         }
         width: vw(100)
     }
