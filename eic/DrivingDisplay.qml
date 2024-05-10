@@ -28,27 +28,6 @@ Item {
 
     anchors.centerIn: parent
 
-    // The indicator bar is really thin and displays at the top of the screen
-    // IndicatorBar {
-    //     id: indicatorBar
-    //     width: vw(100)
-    //     height: lineWidth * 2
-    // }
-
-    // The primary section holds the speed and battery gauges, as well as the PRND
-    // indicator, and is the larger cluster
-    // PrimarySection {
-    //     id: primarySection
-    //     anchors {
-    //         top: indicatorBar.bottom
-    //         topMargin: rowSpacing
-    //         bottom: powerSection.top
-    //         bottomMargin: rowSpacing
-    //     }
-    //     width: vw(100)
-    //     //height: vh(25)
-    // }
-
     Item {
         id: gearIndicator
         anchors {
@@ -97,95 +76,34 @@ Item {
         anchors {
             top: batteryIndicator.bottom
             topMargin: rowSpacing / 2
-            //bottomMargin: batteryIndicator.height + rowSpacing
         }
         width: vw(100)
     }
 
-    RowLayout {
+    SpeedIndicator {
         anchors {
             top: powerSection.bottom
             topMargin: rowSpacing
-            //bottom: childrenRect.bottom
+            horizontalCenter: parent.horizontalCenter
         }
-        width: vw(100)
-        spacing: 100
-//Layout.fillHeight: true
-
-        SpeedIndicator {
-            Layout.alignment: Qt.AlignTop + Qt.AlignHCenter
-            //Loyout.preferredWidth: vw(15)
-            // anchors {
-            //     left: parent.left
-            //     //leftMargin: parent.width / 10
-            //     //right: parent.horizontalCenter
-            //     //horizontalCenter: parent.horizontalCenter
-            //     top: powerSection.bottom
-            //     topMargin: rowSpacing
-            //     //verticalCenter: parent.verticalCenter
-            // }
-            width: vw(30)
-            height: vh(38)
-        }
-
-        Loader {
-            id: overlay
-            Layout.fillWidth: true
-            Layout.alignment: Qt.AlignTop + Qt.AlignHCenter
-            Layout.fillHeight: true
-            //Layout.alignment: Qt.AlignHCenter
-            // anchors {
-            //     top: powerSection.bottom
-            //     topMargin: rowSpacing
-            //     bottom: parent.bottom
-            //     horizontalCenter: parent.horizontalCenter
-            //     // left: SpeedIndicator.right
-            //     // right: speedLimitIndicator.left
-            // }
-            //width: vw(60)
-            source: overlays[0]
-        }
-
-        // Loader {
-        //     id: overlay
-        //     Layout.fillWidth: true
-        //     // anchors {
-        //     //     top: powerSection.bottom
-        //     //     topMargin: rowSpacing
-        //     //     bottom: parent.bottom
-        //     //     horizontalCenter: parent.horizontalCenter
-        //     //     // left: SpeedIndicator.right
-        //     //     // right: speedLimitIndicator.left
-        //     // }
-        //     //width: vw(50)
-        //     source: overlays[0]
-        // }
-        // Item {
-        //     width: vw(20)
-        //     height: vh(28)
-        //     Layout.alignment: Qt.AlignTop + Qt.AlignRight
-        //     //Layout.topMargin: vh(2)
-        //     SpeedLimitIndicator {
-        //         id: speedLimitIndicator
-        //         anchors {
-        //             top: parent.top
-        //             right: parent.right
-        //             //rightMargin: vw(1)
-        //         }
-        //         width: vw(11)
-        //         height: vh(22)
-        //         // anchors {
-        //         //     right: parent.right
-        //         //     //leftMargin: rowSpacing
-        //         //     //horizontalCenter: parent.horizontalCenter
-        //         //     //verticalCenter: parent.verticalCenter
-        //         //     top: powerSection.bottom
-        //         //     topMargin: rowSpacing
-        //         // }
-        //     }
-        // }
+        width: vw(30)
+        height: vh(38)
     }
 
+    Loader {
+        id: overlay
+        anchors {
+            top: powerSection.bottom
+            topMargin: rowSpacing
+            bottom: parent.bottom
+            bottomMargin: rowSpacing
+            horizontalCenter: parent.horizontalCenter
+        }
+        width: vw(100)
+        source: overlays[0]
+    }
+
+    // left turn indicator
     Rectangle {
         id: leftTurnIndicator
         anchors {
@@ -200,6 +118,7 @@ Item {
         opacity: (leftTurnLightStatus === 1) ? 1.0 : 0.0
     }
 
+    // braking indicator
     Rectangle {
         id: stopIndicator
         anchors {
@@ -214,6 +133,7 @@ Item {
         opacity: (breakLightStatus === 1 /* ON */) ? 1.0 : 0.0
     }
 
+    // right turn indicator
     Rectangle {
         id: rightTurnIndicator
         anchors {
@@ -227,34 +147,6 @@ Item {
         color: Colors.green
         opacity: (rightTurnLightStatus === 1) ? 1.0 : 0.0
     }
-
-    // TripSection {
-    //     id: secondarySection
-    //     anchors {
-    //         top: indicatorBar.bottom
-    //         topMargin: rowSpacing
-    //         bottom: powerSection.top
-    //         bottomMargin: rowSpacing
-    //     }
-    //     width: vw(100)
-    //     // height: vh(15)
-    // }
-
-    // BatteryIndicator {
-    //     id: batteryIndicator
-    //     anchors {
-    //         bottom: parent.bottom
-    //         right: parent.right
-    //     }
-    //     width: vw(9)
-    //     height: vh(5)
-    // }
-
-    // Text {
-    //     anchors.bottom: parent.bottom
-    //     color: 'blue'
-    //     text: 'brake:' + breakLightStatus + ' regen:' + regenLight + ' left:' + leftTurnLightStatus + ' right:' + rightTurnLightStatus
-    // }
 
     // need a really short interval here because we're polling
     // for scroll ticks and we'll just not see them if the interval

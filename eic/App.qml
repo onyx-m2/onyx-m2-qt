@@ -4,7 +4,6 @@ import QtQuick.Shapes 1.15
 import QtQuick.Layouts 1.15
 import Components 1.0
 
-// VAL_ 530 BMS_state 0 "STANDBY" 1 "DRIVE" 2 "SUPPORT" 3 "CHARGE" 4 "FEIM" 5 "CLEAR_FAULT" 6 "FAULT" 7 "WELD" 8 "TEST" 9 "SNA";
 Item {
     id: app
 
@@ -28,7 +27,7 @@ Item {
             left: parent.left
             right: parent.right
             bottom: parent.verticalCenter
-            bottomMargin: -100
+            bottomMargin: -70
         }
     }
     Rectangle {
@@ -40,11 +39,6 @@ Item {
         }
         color: 'black'
     }
-
-    // Timer {
-    //     interval: 2000; running: true; repeat: false
-    //     onTriggered: Qt.quit()
-    // }
 
     Canbus {
         onUpdate: {
@@ -65,9 +59,9 @@ Item {
             else if (diagMode === 1) {
                 display.source = 'DiagDisplay.qml'
             }
-            // else if (state === 3 /* CHARGE */) {
-            //     display.source = 'ChargingDisplay.qml'
-            // }
+            else if (state === 3 /* CHARGE */) {
+                display.source = 'ChargingDisplay.qml'
+            }
             else if (gear === 0 || gear === 7 /* SNA */) {
                 tripInProgress = false
                 display.source = 'IdleDisplay.qml'

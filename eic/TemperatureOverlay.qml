@@ -28,6 +28,10 @@ Item {
             suffix: '°c'
         }
 
+        Item {
+            width: vw(40)
+        }
+
         LongCaptionTextGauge {
             Layout.fillWidth: true
             Layout.fillHeight: true
